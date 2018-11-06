@@ -27,6 +27,7 @@
     <v-toolbar fixed app :clipped-left="true" dark color="primary">
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title v-text="title"></v-toolbar-title>
+      <img src="/logo.png" height="30px" class="ml-1"/>
       <v-spacer></v-spacer>
       <v-btn
         icon
@@ -69,13 +70,13 @@
         drawer: true,
         fixed: false,
         items: [
-          { icon: 'apps', title: 'Welcome', to: '/' },
-          { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' }
+          { icon: 'apps', title: 'Продукция', to: '/' },
+          { icon: 'bubble_chart', title: 'Контакты', to: '/inspire' }
         ],
         miniVariant: false,
         right: true,
         rightDrawer: false,
-        title: 'PILOCHKI'
+        title: 'Pilochki'
       }
     },
     created () {
