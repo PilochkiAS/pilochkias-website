@@ -24,7 +24,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar fixed app :clipped-left="true">
+    <v-toolbar fixed app :clipped-left="true" dark color="primary">
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
@@ -32,7 +32,7 @@
         icon
         @click.stop="rightDrawer = !rightDrawer"
       >
-        <v-icon>menu</v-icon>
+        <v-icon>shopping_cart</v-icon>
       </v-btn>
     </v-toolbar>
     <v-content>
@@ -47,12 +47,12 @@
       fixed
     >
       <v-list>
-        <v-list-tile @click.native="right = !right">
-          <v-list-tile-action>
-            <v-icon light>compare_arrows</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
-        </v-list-tile>
+        <!--<v-list-tile @click.native="right = !right">-->
+          <!--<v-list-tile-action>-->
+            <!--<v-icon light>compare_arrows</v-icon>-->
+          <!--</v-list-tile-action>-->
+          <!--<v-list-tile-title>Switch drawer (click me)</v-list-tile-title>-->
+        <!--</v-list-tile>-->
       </v-list>
     </v-navigation-drawer>
     <v-footer :fixed="fixed" app>
@@ -77,6 +77,11 @@
         rightDrawer: false,
         title: 'PILOCHKI'
       }
+    },
+    created () {
+      this.$vuetify.theme.primary = '#C2185B'
+      this.$vuetify.theme.secondary = '#F06292'
+      this.$vuetify.theme.accent = '#536DFE'
     }
   }
 </script>
