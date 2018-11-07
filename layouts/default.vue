@@ -63,12 +63,9 @@
       class="mt-custom"
     >
       <v-list>
-        <!--<v-list-tile @click.native="right = !right">-->
-          <!--<v-list-tile-action>-->
-            <!--<v-icon light>compare_arrows</v-icon>-->
-          <!--</v-list-tile-action>-->
-          <!--<v-list-tile-title>Switch drawer (click me)</v-list-tile-title>-->
-        <!--</v-list-tile>-->
+        <v-list-tile>
+          <v-list-tile-title>Корзина</v-list-tile-title>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-footer :fixed="fixed" app>
@@ -118,5 +115,11 @@
   }
   .header .v-toolbar__content{
     height: auto;
+  }
+
+  @media screen and (max-width: 960px) {
+    .mt-custom{
+      margin-top: 0 !important;
+    }
   }
 </style>
