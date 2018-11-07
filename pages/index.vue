@@ -4,6 +4,36 @@
       <div class="text-xs-center">
         <img src="/v.png" alt="Vuetify.js" class="mb-5" />
       </div>
+      <v-bottom-sheet v-model="sheet" full-width>
+        <v-btn
+                slot="activator"
+                color="accent"
+                fixed
+                dark
+                fab
+                bottom
+                right
+        >
+          <v-icon> phone </v-icon>
+        </v-btn>
+
+        <v-list>
+          <v-subheader>Позвонить</v-subheader>
+          <v-list-tile
+                  v-for="phone in phones"
+                  :key="phone.title"
+                  @click="sheet = false"
+          >
+            <v-list-tile-avatar>
+              <v-icon> phone </v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-title>
+              <a :href="phone.tel">{{ phone.title }}</a>
+            </v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-bottom-sheet>
+
       <v-card>
         <v-card-title class="headline">Welcome to the Vuetify + Nuxt.js template</v-card-title>
         <v-card-text>
@@ -28,3 +58,16 @@
     </v-flex>
   </v-layout>
 </template>
+<script>
+  export default {
+    data () {
+      return {
+        sheet: false,
+        phones: [
+          { title: '+380960000000', tel: 'tel:380960000000' },
+          { title: '+380960000000 (опт)', tel: 'tel:380960000000' }
+        ]
+      }
+    }
+  }
+</script>
