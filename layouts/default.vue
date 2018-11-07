@@ -16,7 +16,7 @@
             :clipped-left="true"
             dark
             dense
-            class="pink darken-4 header pl-5 pr-5"
+            class="pink darken-4 header"
     >
       <v-icon small>access_time</v-icon>
       <p class="mb-0 ml-1">ПН-ВС: 10:00 - 19:00</p>
@@ -113,13 +113,21 @@
   .mt-custom{
     margin-top: 112px !important;
   }
-  .header .v-toolbar__content{
-    height: auto;
+  .header{
+    padding: 0 3rem;
+
+    .v-toolbar__content{
+      height: auto;
+    }
   }
 
   @media screen and (max-width: 960px) {
     .mt-custom{
       margin-top: 0 !important;
+    }
+    .header{
+      padding: 0;
+      font-size: 0.8rem;
     }
   }
 </style>
