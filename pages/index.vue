@@ -1,60 +1,49 @@
 <template>
-  <v-layout column justify-center align-center>
+  <v-container grid-list-lg>
+    <v-layout row wrap>
 
-    <v-flex xs12 :class="index === 0 ? 'banner':'banner mt-4'" v-for="(banner, index) in banners" :key="index">
-      <v-card>
-        <v-layout>
-          <v-flex xs7 class="pa-5">
-            <v-layout column justify-center fill-height>
-              <div class="display-3 font-weight-thin">{{ banner.title }}</div>
-              <v-divider light class="divider-width primary"/>
+      <v-flex xs12 v-for="banner in banners" :key="banner.title">
+        <v-card class="banner">
+          <v-card-text class="px-4 d-flex">
+            <h1>{{ banner.title }}</h1>
+            <v-divider class="accent mb-3"/>
+            <p>{{ banner.description }}</p>
+            <v-btn color="primary" nuxt :to="banner.link" class="mx-0">Подробнее</v-btn>
+          </v-card-text>
 
-              <div class="mt-3">{{ banner.description }}</div>
-              <v-btn color="primary" nuxt :to="banner.link" class="ml-0 btn-width">ПОДРОБНЕЕ</v-btn>
-            </v-layout>
-          </v-flex>
-          <v-flex xs5>
-            <v-img
-                    :src="banner.imgSrc"
-                    height="325px"
-                    contain
-            ></v-img>
-          </v-flex>
-        </v-layout>
-      </v-card>
-    </v-flex>
+          <div class="banner-image">
+            <v-img :src="banner.imgSrc" aspect-ratio="1.5" contain></v-img>
+          </div>
+        </v-card>
+      </v-flex>
+
+    </v-layout>
 
     <v-bottom-sheet v-model="sheet" full-width>
-      <v-btn
-              slot="activator"
-              color="accent"
-              fixed
-              dark
-              fab
-              bottom
-              right
-              class="fab-animation"
+      <v-btn slot="activator" color="accent" fixed
+             dark fab bottom right class="fab-animation"
       >
         <v-icon> phone </v-icon>
       </v-btn>
 
       <v-list>
-        <v-subheader>Позвонить</v-subheader>
-        <v-list-tile
-                v-for="phone in phones"
-                :key="phone.title"
-                @click="sheet = false"
-        >
-          <v-list-tile-avatar>
-            <v-icon> phone </v-icon>
-          </v-list-tile-avatar>
-          <v-list-tile-title>
-            <a :href="phone.tel">{{ phone.title }}</a>
-          </v-list-tile-title>
-        </v-list-tile>
+        <v-subheader>
+          Позвонить
+        </v-subheader>
+        <template v-for="(item, index) in phones">
+          <v-list-tile
+                  :key="item.title"
+                  avatar
+                  @click=""
+          >
+            <v-list-tile-content>
+              <v-list-tile-title v-html="item.link"></v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
       </v-list>
     </v-bottom-sheet>
-  </v-layout>
+  </v-container>
 </template>
 <script>
   export default {
@@ -62,12 +51,12 @@
       return {
         sheet: false,
         phones: [
-          { title: '+380960000000', tel: 'tel:380960000000' },
-          { title: '+380960000000 (опт)', tel: 'tel:380960000000' }
+          { title: '+380960000000', link: `<a href="tel:380960000000">+380960000000</a>` },
+          { title: '+380960000000 (опт)', link: `<a href="tel:380960000000">+380960000000 (опт)</a>` }
         ],
         banners: [
           { title: 'ПИЛКИ И ФАЙЛЫ',
-            description: 'ВСЕХ РАЗМЕРОВ ДЛЯ МАНИКЮРА И ПЕДИКЮРА',
+            description: 'Всех размеров для маникюра и педикюра',
             link: '/products#saw-files',
             imgSrc: 'https://smart-pilka.ru/image/cache/catalog/product/banner1-652x405.jpg'
           },
@@ -89,22 +78,41 @@
   }
 </script>
 <style lang="stylus" scoped>
-  .h-100{
+  .h-100 {
     height: 100%;
   }
-  .banner{
-    width: 100%;
+  .banner {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    .v-card__text {
+      flex-direction: column;
+      justify-content: center;
+      & > * {
+        flex-grow: 0 !important;
+      }
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 100;
+    }
+    .v-btn {
+      width: 120px;
+    }
+
+    .banner-image {
+      padding: 1.5rem;
+
+      .v-image {
+        width: 350px;
+      }
+    }
   }
-  .btn-width{
-    width: 120px;
-  }
-  .divider-width{
-    width: 30%;
-  }
-  .fab-animation{
+  .fab-animation {
     animation: rotate 2s ease-in 1s infinite normal forwards;
 
-    &:before{
+    &:before {
       position: absolute;
       width: 56px;
       height: 56px;
@@ -149,5 +157,26 @@
       transform: scale($animation-zoomout-scale);
       opacity: 0;
     }
+  }
+
+  @media screen and (max-width: 960px) {
+    .banner {
+      display: flex;
+      flex-direction: column-reverse;
+      justify-content: flex-end;
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .banner-image {
+        padding: 0;
+
+        .v-image {
+          width: 100%;
+        }
+      }
+    }
+
   }
 </style>

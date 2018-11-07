@@ -1,5 +1,5 @@
 <template>
-  <v-layout column h-100 class="pb-5">
+  <v-layout column fill-height class="pb-4">
     <v-list>
       <v-list-tile router
                    to="/"
@@ -64,8 +64,10 @@
 
     <v-spacer></v-spacer>
 
-    <p class="text-xs-center"><v-icon small class="mr-1">access_time</v-icon>ПН-ВС: 10:00 - 19:00</p>
-
+    <div class="text-xs-center time">
+      <v-icon small class="mr-1">access_time</v-icon>
+      <p class="text-xs-center ma-0">ПН-ВС: 10:00 - 19:00</p>
+    </div>
     <div class="text-xs-center">
       <v-bottom-sheet v-model="sheet" full-width>
         <v-btn
@@ -77,19 +79,18 @@
         </v-btn>
 
         <v-list>
-          <v-subheader>Позвонить</v-subheader>
-          <v-list-tile
-                  v-for="phone in phones"
-                  :key="phone.title"
-                  @click="sheet = false"
-          >
-            <v-list-tile-avatar>
-              <v-icon> phone </v-icon>
-            </v-list-tile-avatar>
-            <v-list-tile-title>
-              <a :href="phone.tel">{{ phone.title }}</a>
-            </v-list-tile-title>
-          </v-list-tile>
+          <v-subheader>
+            Позвонить
+          </v-subheader>
+          <template v-for="(item, index) in phones">
+            <v-list-tile
+                    :key="item.title"
+            >
+              <v-list-tile-content>
+                <v-list-tile-title v-html="item.link"></v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </template>
         </v-list>
       </v-bottom-sheet>
     </div>
@@ -109,8 +110,8 @@
           { title: 'Оборудование', to: '/products#equipment' }
         ],
         phones: [
-          { title: '+380960000000', tel: 'tel:380960000000' },
-          { title: '+380960000000 (опт)', tel: 'tel:380960000000' }
+          { title: '+380960000000', link: `<a href="tel:380960000000">+380960000000</a>` },
+          { title: '+380960000000 (опт)', link: `<a href="tel:380960000000">+380960000000 (опт)</a>` }
         ]
       }
     }
@@ -118,7 +119,11 @@
 </script>
 
 <style lang="stylus" scoped>
-  .h-100{
-    height: 100%;
+  .time {
+    display: flex;
+    justify-content: center;
+  }
+  .d-flex > * {
+    /*flex: 0 1 auto !important;*/
   }
 </style>
