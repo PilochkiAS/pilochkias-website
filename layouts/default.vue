@@ -6,25 +6,39 @@
       v-model="drawer"
       fixed
       app
+      class="mt-custom"
     >
-      <v-list>
-        <v-list-tile
-          router
-          :to="item.to"
-          :key="i"
-          v-for="(item, i) in items"
-          exact
-        >
-          <v-list-tile-action>
-            <v-icon v-html="item.icon"></v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title v-text="item.title"></v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
+      <SideBar/>
     </v-navigation-drawer>
-    <v-toolbar fixed app :clipped-left="true" dark color="primary">
+    <v-toolbar
+            fixed
+            app
+            :clipped-left="true"
+            dark
+            dense
+            class="pink darken-4 header pl-5 pr-5"
+    >
+      <v-icon small>access_time</v-icon>
+      <p class="mb-0 ml-1">ПН-ВС: 10:00 - 19:00</p>
+      <v-spacer></v-spacer>
+      <v-menu offset-y>
+        <p class="mb-0 ml-1" slot="activator">
+          +380960000000
+          <v-icon small>arrow_drop_down</v-icon>
+        </p>
+
+        <v-list>
+          <v-list-tile
+                  v-for="item in phones"
+                  :key="item"
+                  @click=""
+          >
+            <v-list-tile-title>{{ item }}</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
+    </v-toolbar>
+    <v-toolbar fixed app :clipped-left="true" dark color="primary" class="mt-5">
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <img src="/logo.png" height="30px" class="ml-1"/>
@@ -36,7 +50,7 @@
         <v-icon>shopping_cart</v-icon>
       </v-btn>
     </v-toolbar>
-    <v-content>
+    <v-content class="mt-5">
       <v-container>
         <nuxt />
       </v-container>
@@ -46,6 +60,7 @@
       :right="right"
       v-model="rightDrawer"
       fixed
+      class="mt-custom"
     >
       <v-list>
         <!--<v-list-tile @click.native="right = !right">-->
@@ -63,6 +78,8 @@
 </template>
 
 <script>
+  import SideBar from '~/components/SideBar'
+
   export default {
     data () {
       return {
@@ -70,8 +87,13 @@
         drawer: true,
         fixed: false,
         items: [
-          { icon: 'apps', title: 'Продукция', to: '/' },
-          { icon: 'bubble_chart', title: 'Контакты', to: '/inspire' }
+          { icon: 'home', title: 'Домашняя страница', to: '/' },
+          { icon: 'apps', title: 'Продукция', to: '/products' },
+          { icon: 'bubble_chart', title: 'Контакты', to: '/contacts' }
+        ],
+        phones: [
+          '+380960000000',
+          '+380960000000 (опт)'
         ],
         miniVariant: false,
         right: true,
@@ -81,8 +103,20 @@
     },
     created () {
       this.$vuetify.theme.primary = '#C2185B'
-      this.$vuetify.theme.secondary = '#F06292'
+      this.$vuetify.theme.secondary = '#FCE4EC'
       this.$vuetify.theme.accent = '#536DFE'
+    },
+    components: {
+      SideBar
     }
   }
 </script>
+
+<style lang="stylus" scoped>
+  .mt-custom{
+    margin-top: 112px !important;
+  }
+  .header .v-toolbar__content{
+    height: auto;
+  }
+</style>
