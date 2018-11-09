@@ -23,8 +23,9 @@
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
-
-      <ProductsContent :isModuleList="isModuleList"/>
+        <v-container>
+            <ProductsContent :isModuleList="isModuleList"/>
+        </v-container>
     </v-flex>
   </v-layout>
 </template>
