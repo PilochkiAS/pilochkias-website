@@ -68,12 +68,21 @@
 
 <style lang="stylus" scoped>
   .v-btn.action-btn:hover .v-btn__content .v-icon {
-    color: #536DFE;
+    color: #26C6DA;
   }
 
   @media screen and (max-width: 960px) {
     .custom-cards {
 
+    }
+  }
+</style>
+<style lang="stylus">
+
+
+  @media screen and (max-width: 960px) {
+    .v-breadcrumbs__divider {
+      padding: 0 4px !important;
     }
   }
 </style>

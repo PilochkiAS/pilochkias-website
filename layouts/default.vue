@@ -68,7 +68,7 @@
     created () {
       this.$vuetify.theme.primary = '#C2185B'
       this.$vuetify.theme.secondary = '#FCE4EC'
-      this.$vuetify.theme.accent = '#536DFE'
+      this.$vuetify.theme.accent = '#26C6DA'
     },
     components: {
       SideBar
