@@ -3,15 +3,9 @@
     <v-flex>
       <v-container grid-list-lg fluid class="px-0">
         <v-layout :column="!isModuleList" wrap>
-          <v-flex xs4 v-for="n in 18" :key="n">
+          <v-flex xs6 md4 v-for="n in 18" :key="n">
             <v-card flat tile hover>
-              <!--<v-card-title>-->
-                <!--<div>-->
-                  <!--<div class="headline">Top western road trips</div>-->
-                <!--</div>-->
-              <!--</v-card-title>-->
-
-              <v-layout :column="isModuleList">
+              <v-layout :column="isModuleList" class="custom-cards">
                 <v-flex xs5 class="py-0">
                   <!--<v-img-->
                           <!--:src="`https://unsplash.it/150/300?image=${Math.floor(Math.random() * 100) + 1}`"-->
@@ -38,10 +32,10 @@
               <v-card-actions>
                 <div class="accent--text font-weight-bold">8 800.00 грн</div>
                 <v-spacer></v-spacer>
-                <v-btn icon class="action-btn">
+                <v-btn icon :class="isModuleList ? 'action-btn hidden-sm-and-down':'action-btn'">
                   <v-icon>favorite</v-icon>
                 </v-btn>
-                <v-btn icon class="action-btn">
+                <v-btn icon :class="isModuleList ? 'action-btn hidden-sm-and-down':'action-btn'">
                   <v-icon>share</v-icon>
                 </v-btn>
                 <v-btn icon class="action-btn">
@@ -65,6 +59,9 @@
         ]
       }
     },
+    created () {
+
+    },
     props: ['isModuleList']
   }
 </script>
@@ -72,5 +69,11 @@
 <style lang="stylus" scoped>
   .v-btn.action-btn:hover .v-btn__content .v-icon {
     color: #536DFE;
+  }
+
+  @media screen and (max-width: 960px) {
+    .custom-cards {
+
+    }
   }
 </style>
