@@ -17,42 +17,12 @@
         </v-layout>
       </v-carousel-item>
     </v-carousel>
-
-    <v-bottom-sheet v-model="sheet" full-width>
-      <v-btn slot="activator" color="accent" fixed
-             dark fab bottom right class="fab-animation"
-      >
-        <v-icon> phone </v-icon>
-      </v-btn>
-
-      <v-list>
-        <v-subheader>
-          Позвонить
-        </v-subheader>
-        <template v-for="(item, index) in phones">
-          <v-list-tile
-                  :key="item.title"
-                  avatar
-                  @click=""
-          >
-            <v-list-tile-content>
-              <v-list-tile-title v-html="item.link"></v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </template>
-      </v-list>
-    </v-bottom-sheet>
   </v-layout>
 </template>
 <script>
   export default {
     data () {
       return {
-        sheet: false,
-        phones: [
-          { title: '+380960000000', link: `<a href="tel:380960000000">+380960000000</a>` },
-          { title: '+380960000000 (опт)', link: `<a href="tel:380960000000">+380960000000 (опт)</a>` }
-        ],
         banners: [
           { title: 'ПИЛКИ И ФАЙЛЫ',
             description: 'Всех размеров для маникюра и педикюра',

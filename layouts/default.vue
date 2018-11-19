@@ -42,6 +42,31 @@
     <v-footer :fixed="fixed" app class="text-xs-center">
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
+
+    <v-bottom-sheet v-model="sheet" full-width>
+      <v-btn slot="activator" color="accent" fixed
+             dark fab bottom right class="fab-animation"
+      >
+        <v-icon> phone </v-icon>
+      </v-btn>
+
+      <v-list>
+        <v-subheader>
+          Позвонить
+        </v-subheader>
+        <template v-for="(item, index) in phones">
+          <v-list-tile
+                  :key="item.title"
+                  avatar
+                  @click=""
+          >
+            <v-list-tile-content>
+              <v-list-tile-title v-html="item.link"></v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
+      </v-list>
+    </v-bottom-sheet>
   </v-app>
 </template>
 
@@ -53,6 +78,11 @@
       return {
         clipped: false,
         drawer: true,
+        sheet: false,
+        phones: [
+          { title: '+380970710071', link: `<a href="tel:380970710071">+380970710071</a>` },
+          { title: '+380963447307 (опт)', link: `<a href="tel:380963447307">+380963447307</a>` }
+        ],
         fixed: false,
         items: [
           { icon: 'home', title: 'Домашняя страница', to: '/' },
