@@ -1,6 +1,6 @@
 <template >
-  <v-layout>
-    <v-carousel light class="carousel">
+  <v-layout column>
+    <v-carousel light class="carousel1">
       <v-carousel-item
               v-for="banner in banners"
               :key="banner.title"
@@ -17,9 +17,51 @@
         </v-layout>
       </v-carousel-item>
     </v-carousel>
+
+    <v-layout row>
+      <v-flex xs6>
+        <h2 class="pt-4 pb-4 text-xs-center">Наиболее популярные товары</h2>
+
+        <v-carousel light class="carousel2" height="350">
+          <v-carousel-item
+                  v-for="item in products"
+                  :key="item.title"
+          >
+
+            <v-layout justify-center fill-height>
+              <v-flex xs8>
+                <ProductItem :isModuleList="isModuleList" :item="item"/>
+              </v-flex>
+            </v-layout>
+
+          </v-carousel-item>
+        </v-carousel>
+      </v-flex>
+
+      <v-flex xs6>
+        <h2 class="pt-4 pb-4 text-xs-center">Акции и скидки</h2>
+
+        <v-carousel light class="carousel2" height="350">
+          <v-carousel-item
+                  v-for="item in products"
+                  :key="item.title"
+          >
+
+            <v-layout justify-center fill-height>
+              <v-flex xs8>
+                <ProductItem :isModuleList="isModuleList" :item="item"/>
+              </v-flex>
+            </v-layout>
+
+          </v-carousel-item>
+        </v-carousel>
+      </v-flex>
+    </v-layout>
   </v-layout>
 </template>
 <script>
+  import ProductItem from '~/components/ProductItem'
+
   export default {
     data () {
       return {
@@ -39,8 +81,32 @@
             description: 'Аппараты, лампы и пылесосы для маникюра и педикюра',
             imgSrc: 'https://pilochki.com/files/12pzjm0qsiozn8kbg9xw/slider_original.jpg'
           }
-        ]
+        ],
+        products: [
+          {
+            title: 'Пилочка для маникюра BANAN',
+            price: 160,
+            discount: 140,
+            imgSrc: 'https://images.ua.prom.st/912158191_w800_h640_dsc_0003.jpg'
+          },
+          {
+            title: 'Пилочка для маникюра МAXI',
+            price: 180,
+            discount: 0,
+            imgSrc: 'https://images.ua.prom.st/912416731_w800_h640_dsc_0788.jpg'
+          },
+          {
+            title: 'Основа для маникюра BAF',
+            price: 90,
+            discount: 0,
+            imgSrc: 'https://images.ua.prom.st/912438962_w800_h640_dsc_0133.jpg'
+          }
+        ],
+        isModuleList: true
       }
+    },
+    components: {
+      ProductItem
     }
   }
 </script>
@@ -48,17 +114,7 @@
   .bg-darken {
     background-color: rgba(71, 73, 78, 0.25);
   }
-  .fab-animation {
-    animation: rotate 2s ease-in 1s infinite normal forwards;
 
-    &:before {
-      position: absolute;
-      width: 56px;
-      height: 56px;
-      background-color: #C2185B;
-      animation: zoom-out 3s linear 0s infinite normal;
-    }
-  }
   @media screen and (max-width: 960px) {
     .display-2 {
       font-size: 2.2rem !important;
@@ -68,47 +124,10 @@
     }
   }
 
-  $animation-rotate-scale = 15deg;
-  @keyframes rotate {
-    5%{
-      transform: rotate(0deg);
-    }
-    10%{
-      transform: rotate($animation-rotate-scale);
-    }
-    15%{
-      transform: rotate(0deg);
-    }
-    20%{
-      transform: rotate($animation-rotate-scale);
-    }
-    25%{
-      transform: rotate(0deg);
-    }
-  }
-
-  $animation-zoomout-scale = 1.5;
-  @keyframes zoom-out {
-    0%{
-      -webkit-transform: scale(1);
-      transform: scale(1);
-      opacity: 1;
-    }
-    72%{
-      -webkit-transform: scale($animation-zoomout-scale);
-      transform: scale($animation-zoomout-scale);
-      opacity: 0;
-    }
-    100%{
-      -webkit-transform: scale($animation-zoomout-scale);
-      transform: scale($animation-zoomout-scale);
-      opacity: 0;
-    }
-  }
 </style>
 
 <style lang="stylus">
-  .carousel {
+  .carousel1 {
     .v-carousel__controls {
       background: none;
     }
@@ -123,4 +142,19 @@
       color: #26C6DA !important;
     }
   }
+  .carousel2 {
+    .v-carousel__controls {
+      background: none;
+    }
+    .v-btn--active:before, .v-btn:hover:before, .v-btn:focus:before {
+      background: none;
+    }
+    .v-btn--active i{
+      color: #26C6DA !important;
+    }
+  }
+  .v-carousel {
+    box-shadow: none;
+  }
+
 </style>

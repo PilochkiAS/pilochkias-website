@@ -117,6 +117,55 @@
       height: auto;
     }
   }
+  .fab-animation {
+    animation: rotate 2s ease-in 1s infinite normal forwards;
+
+    &:before {
+      position: absolute;
+      width: 56px;
+      height: 56px;
+      background-color: #C2185B;
+      animation: zoom-out 3s linear 0s infinite normal;
+    }
+  }
+
+  $animation-rotate-scale = 15deg;
+  @keyframes rotate {
+    5%{
+      transform: rotate(0deg);
+    }
+    10%{
+      transform: rotate($animation-rotate-scale);
+    }
+    15%{
+      transform: rotate(0deg);
+    }
+    20%{
+      transform: rotate($animation-rotate-scale);
+    }
+    25%{
+      transform: rotate(0deg);
+    }
+  }
+
+  $animation-zoomout-scale = 1.5;
+  @keyframes zoom-out {
+    0%{
+      -webkit-transform: scale(1);
+      transform: scale(1);
+      opacity: 1;
+    }
+    72%{
+      -webkit-transform: scale($animation-zoomout-scale);
+      transform: scale($animation-zoomout-scale);
+      opacity: 0;
+    }
+    100%{
+      -webkit-transform: scale($animation-zoomout-scale);
+      transform: scale($animation-zoomout-scale);
+      opacity: 0;
+    }
+  }
 
   @media screen and (max-width: 960px) {
     .mt-custom{
