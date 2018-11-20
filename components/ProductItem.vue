@@ -9,15 +9,17 @@
         <v-img
                 :src="item.imgSrc"
                 height="150px"
-        ></v-img>
+        >
+          <v-layout fill-height class="ma-0">
+            <span class="white--text primary discount-label pa-1" v-if="item.discount > 0">СКИДКА</span>
+          </v-layout>
+        </v-img>
       </v-flex>
 
       <v-flex xs7>
         <v-card-title primary-title class="py-0">
           <div>
             <div class="title">{{ item.title }}</div>
-            <span class="primary--text" v-if="item.discount > 0">СКИДКА</span>
-            <span v-else></span>
           </div>
         </v-card-title>
       </v-flex>
@@ -62,6 +64,9 @@
 
   .discount {
     text-decoration: line-through;
+  }
+  .discount-label {
+    height: 2rem;
   }
 
   @media screen and (max-width: 960px) {

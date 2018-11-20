@@ -69,12 +69,12 @@
           { title: 'ПИЛКИ И ФАЙЛЫ',
             description: 'Всех размеров для маникюра и педикюра',
             link: '/products#saw-files',
-            imgSrc: 'https://pilochki.com/files/12pzjm0qsiozn8kbg9xw/slider_original.jpg'
+            imgSrc: 'https://images.ua.prom.st/1406733799_viber_image_22.jpg'
           },
           { title: 'ДИСК SMART',
             link: '/products#smart-disks',
             description: `Диск Smart - это инновационный, запатентованный компанией SMART инструмент`,
-            imgSrc: 'https://pilochki.com/files/12pzjm0qsiozn8kbg9xw/slider_original.jpg'
+            imgSrc: 'https://images.ua.prom.st/1406732993_viber_image_1.jpg'
           },
           { title: 'ОБОРУДОВАНИЕ',
             link: '/products#equipment',
