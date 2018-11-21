@@ -160,7 +160,7 @@
       }
     }
     .products-carousels {
-      flex-direction: column;
+      flex-direction: column !important;
     }
     .headline {
       font-size: 1.5rem !important;
