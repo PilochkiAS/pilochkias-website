@@ -15,11 +15,15 @@
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <img src="/logo.png" height="30px" class="ml-1"/>
       <v-spacer></v-spacer>
+
       <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
+              icon
+              @click.stop="rightDrawer = !rightDrawer"
       >
-        <v-icon>shopping_cart</v-icon>
+        <v-badge left color="accent">
+          <span slot="badge" v-if="cart.length > 0">3</span>
+          <v-icon>shopping_cart</v-icon>
+        </v-badge>
       </v-btn>
     </v-toolbar>
 
@@ -29,7 +33,7 @@
 
     <v-navigation-drawer
       temporary
-      :right="right"
+      right
       v-model="rightDrawer"
       fixed
     >
@@ -76,8 +80,9 @@
   export default {
     data () {
       return {
+        cart: [1, 2, 3],
         clipped: false,
-        drawer: true,
+        drawer: false,
         sheet: false,
         phones: [
           { title: '+380970710071', link: `<a href="tel:380970710071">+380970710071</a>` },

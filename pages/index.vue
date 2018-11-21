@@ -1,28 +1,40 @@
 <template >
   <v-layout column>
-    <v-carousel light class="carousel1">
+    <v-carousel light class="carousel1" :height="'50vh'">
       <v-carousel-item
               v-for="banner in banners"
               :key="banner.title"
-              :src="banner.imgSrc"
       >
-        <v-layout fill-height align-center class="bg-darken">
-          <v-flex xs8 offset-xs2 offset-sm2>
-            <div>
-              <h2 class="display-2 white--text">{{ banner.title }}</h2>
-              <span class="headline white--text font-weight-thin">{{ banner.description }}</span>
+        <v-layout fill-height class="ma-0 px-5 banner">
+          <v-flex xs12 md6 class="banner-text px-5">
+            <h1 class="primary--text pa-1">{{ banner.title }}</h1>
+            <h2 class="white--text pa-1 font-weight-light">{{ banner.description }}</h2>
+
+            <div class="text-xs-left">
+              <v-btn
+                      slot="activator"
+                      color="primary"
+                      outline
+                      dark
+                      nuxt
+                      :to="banner.link"
+              >
+                Подробнее
+              </v-btn>
             </div>
-            <v-btn color="accent" nuxt :to="banner.link" class="mx-0">Подробнее</v-btn>
+          </v-flex>
+          <v-flex xs0 md6 class="">
           </v-flex>
         </v-layout>
+
       </v-carousel-item>
     </v-carousel>
 
-    <v-layout row>
-      <v-flex xs6>
+    <v-layout row class="products-carousels">
+      <v-flex  xs12 md6>
         <h2 class="pt-4 pb-4 text-xs-center">Наиболее популярные товары</h2>
 
-        <v-carousel light class="carousel2" height="350">
+        <v-carousel light class="carousel2" height="300">
           <v-carousel-item
                   v-for="item in products"
                   :key="item.title"
@@ -38,10 +50,10 @@
         </v-carousel>
       </v-flex>
 
-      <v-flex xs6>
+      <v-flex xs12 md6>
         <h2 class="pt-4 pb-4 text-xs-center">Акции и скидки</h2>
 
-        <v-carousel light class="carousel2" height="350">
+        <v-carousel light class="carousel2" height="300">
           <v-carousel-item
                   v-for="item in products"
                   :key="item.title"
@@ -114,10 +126,41 @@
   .bg-darken {
     background-color: rgba(71, 73, 78, 0.25);
   }
+  .carousel1 {
+    height: 50vh;
+  }
+  .banner {
+    background-color: #80DEEA;
+    background-image: url("https://images.ua.prom.st/912438962_w800_h640_dsc_0133.jpg");
+    background-size: cover;
+  }
+  .banner-text {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #80DEEAA8;
+    h1 {
+      font-size: 40px;
+    }
+  }
+  .products-carousels {
+    flex-direction: row;
+  }
 
   @media screen and (max-width: 960px) {
     .display-2 {
       font-size: 2.2rem !important;
+    }
+    .banner-text {
+      h1 {
+        font-size: 2rem;
+      }
+      h2 {
+        font-size: 1.2rem;
+      }
+    }
+    .products-carousels {
+      flex-direction: column;
     }
     .headline {
       font-size: 1.5rem !important;
@@ -130,6 +173,8 @@
   .carousel1 {
     .v-carousel__controls {
       background: none;
+      justify-content: flex-start;
+      padding-left: 20%;
     }
     .v-btn--active:before, .v-btn:hover:before, .v-btn:focus:before {
       background: none;
@@ -157,4 +202,12 @@
     box-shadow: none;
   }
 
+  @media screen and (max-width: 960px) {
+    .carousel1 {
+      .v-carousel__controls {
+        justify-content: center;
+        padding-left: unset;
+      }
+    }
+  }
 </style>
