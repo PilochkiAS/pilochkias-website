@@ -20,10 +20,22 @@ module.exports = {
   /*
   ** Customize the progress bar color
   */
-  loading: { color: '#3B8070' },
+  loading: { color: '#26C6DA' },
   /*
   ** Build configuration
   */
+  manifest: {
+    name: 'PilochkiAS',
+    lang: 'ru'
+  },
+  workbox: {
+    dev: true
+  },
+  meta: {},
+  icon: {},
+  modules: [
+    '@nuxtjs/pwa'
+  ],
   build: {
     extractCSS: true,
     extend (config, ctx) {
