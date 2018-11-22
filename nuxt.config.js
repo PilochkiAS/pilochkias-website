@@ -31,7 +31,7 @@ module.exports = {
     short_name: 'PilkiAS'
   },
   workbox: {
-    dev: true
+    debug: true
   },
   icon: {},
   modules: [

@@ -30,7 +30,7 @@
       </v-carousel-item>
     </v-carousel>
 
-    <v-layout justify-center class="pt-4">
+    <v-layout justify-center class="pt-4" v-if="pwaPrompt">
       <v-btn
               slot="activator"
               color="primary"
@@ -127,7 +127,7 @@
           }
         ],
         isModuleList: true,
-        deferredPrompt: null
+        pwaPrompt: null
       }
     },
     components: {
@@ -135,34 +135,27 @@
     },
     methods: {
       installAppBtnClick (e) {
-        console.log('==> installAppBtnClick', e)
-
-        // hide our user interface that shows our A2HS button
-        // btnAdd.style.display = 'none'
         // Show the prompt
-        this.deferredPrompt.prompt()
+        this.pwaPrompt.prompt()
         // Wait for the user to respond to the prompt
-        this.deferredPrompt.userChoice
+        this.pwaPrompt.userChoice
           .then((choiceResult) => {
             if (choiceResult.outcome === 'accepted') {
               console.log('User accepted the A2HS prompt')
             } else {
               console.log('User dismissed the A2HS prompt')
             }
-            this.deferredPrompt = null
+            // hide our user interface that shows our A2HS button
+            this.pwaPrompt = null
           })
       }
     },
     mounted () {
       window.addEventListener('beforeinstallprompt', (e) => {
-        console.log('==> beforeinstallprompt', e)
-
         // Prevent Chrome 67 and earlier from automatically showing the prompt
         e.preventDefault()
         // Stash the event so it can be triggered later.
-        this.deferredPrompt = e
-        // Update UI notify the user they can add to home screen
-        // btnAdd.style.display = 'block'
+        this.pwaPrompt = e
       })
     }
   }
