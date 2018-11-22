@@ -30,12 +30,17 @@
       </v-carousel-item>
     </v-carousel>
 
-    <v-btn
-            icon
-            @click="installAppBtnClick"
-            ref="addBtn"
-    >
-    </v-btn>
+    <v-layout justify-center class="pt-4">
+      <v-btn
+              slot="activator"
+              color="primary"
+              outline
+              dark
+              @click="installAppBtnClick"
+      >
+        Установить Приложение
+      </v-btn>
+    </v-layout>
 
     <v-layout row class="products-carousels">
       <v-flex  xs12 md6>
