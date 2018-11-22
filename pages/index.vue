@@ -30,6 +30,13 @@
       </v-carousel-item>
     </v-carousel>
 
+    <v-btn
+            icon
+            @click="installAppBtnClick"
+            ref="addBtn"
+    >
+    </v-btn>
+
     <v-layout row class="products-carousels">
       <v-flex  xs12 md6>
         <h2 class="pt-4 pb-4 text-xs-center">Наиболее популярные товары</h2>
@@ -114,11 +121,44 @@
             imgSrc: 'https://images.ua.prom.st/912438962_w800_h640_dsc_0133.jpg'
           }
         ],
-        isModuleList: true
+        isModuleList: true,
+        deferredPrompt: null
       }
     },
     components: {
       ProductItem
+    },
+    methods: {
+      installAppBtnClick (e) {
+        console.log('==> installAppBtnClick', e)
+
+        // hide our user interface that shows our A2HS button
+        // btnAdd.style.display = 'none'
+        // Show the prompt
+        this.deferredPrompt.prompt()
+        // Wait for the user to respond to the prompt
+        this.deferredPrompt.userChoice
+          .then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+              console.log('User accepted the A2HS prompt')
+            } else {
+              console.log('User dismissed the A2HS prompt')
+            }
+            this.deferredPrompt = null
+          })
+      }
+    },
+    mounted () {
+      window.addEventListener('beforeinstallprompt', (e) => {
+        console.log('==> beforeinstallprompt', e)
+
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault()
+        // Stash the event so it can be triggered later.
+        this.deferredPrompt = e
+        // Update UI notify the user they can add to home screen
+        // btnAdd.style.display = 'block'
+      })
     }
   }
 </script>

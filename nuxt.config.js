@@ -26,12 +26,13 @@ module.exports = {
   */
   manifest: {
     name: 'PilochkiAS',
-    lang: 'ru'
+    lang: 'ru',
+    theme_color: '#26C6DA',
+    short_name: 'PilkiAS'
   },
   workbox: {
     dev: true
   },
-  meta: {},
   icon: {},
   modules: [
     '@nuxtjs/pwa'
