@@ -34,6 +34,9 @@ module.exports = {
     debug: true
   },
   icon: {},
+  meta: {
+    mobileAppIOS: true
+  },
   modules: [
     '@nuxtjs/pwa'
   ],
