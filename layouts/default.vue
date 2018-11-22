@@ -182,3 +182,12 @@
     }
   }
 </style>
+<style lang="stylus" scoped>
+  .v-badge__badge.accent span{
+    padding-top: 1px;
+    padding-left: 1px;
+  }
+  @media screen and (max-width: 960px) {
+
+  }
+</style>
