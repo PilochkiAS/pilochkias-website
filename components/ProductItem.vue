@@ -11,7 +11,9 @@
                 height="150px"
         >
           <v-layout fill-height class="ma-0">
-            <span class="white--text primary discount-label pa-1" v-if="item.discount > 0">СКИДКА</span>
+            <span class="white--text discount-label pa-1" v-if="item.discount > 0">
+              <v-img src="/sale.png" height="40" width="40"/>
+            </span>
           </v-layout>
         </v-img>
       </v-flex>
