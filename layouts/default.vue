@@ -21,7 +21,7 @@
               @click.stop="rightDrawer = !rightDrawer"
       >
         <v-badge left color="accent">
-          <span slot="badge" v-if="cart.length > 0">3</span>
+          <span slot="badge" v-if="$store.state.cart.products.length > 0">{{ $store.state.cart.products.length }}</span>
           <v-icon>shopping_cart</v-icon>
         </v-badge>
       </v-btn>
@@ -37,11 +37,8 @@
       v-model="rightDrawer"
       fixed
     >
-      <v-list>
-        <v-list-tile>
-          <v-list-tile-title>Корзина</v-list-tile-title>
-        </v-list-tile>
-      </v-list>
+      <CartSideBar/>
+
     </v-navigation-drawer>
     <v-footer :fixed="fixed" app class="text-xs-center">
       <span>&copy; {{ new Date().getFullYear() }}</span>
@@ -76,6 +73,7 @@
 
 <script>
   import SideBar from '~/components/SideBar'
+  import CartSideBar from '~/components/CartSideBar'
 
   export default {
     data () {
@@ -105,8 +103,14 @@
       this.$vuetify.theme.secondary = '#FCE4EC'
       this.$vuetify.theme.accent = '#26C6DA'
     },
+    computed: {
+      cartProducts (value) {
+        return this.$store.state.cart.products
+      }
+    },
     components: {
-      SideBar
+      SideBar,
+      CartSideBar
     }
   }
 </script>

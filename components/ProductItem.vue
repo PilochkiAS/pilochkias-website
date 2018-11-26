@@ -37,7 +37,10 @@
       <v-btn icon :class="isModuleList ? 'action-btn hidden-sm-and-down':'action-btn'">
         <v-icon>share</v-icon>
       </v-btn>
-      <v-btn icon class="action-btn">
+      <v-btn icon
+             class="action-btn"
+             @click="$store.commit('addToCart', item)"
+      >
         <v-icon>add_shopping_cart</v-icon>
       </v-btn>
     </v-card-actions>
