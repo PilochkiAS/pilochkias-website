@@ -37,8 +37,7 @@
       v-model="rightDrawer"
       fixed
     >
-      <CartSideBar/>
-
+      <CartSideBar v-model="rightDrawer"/>
     </v-navigation-drawer>
     <v-footer :fixed="fixed" app class="text-xs-center">
       <span>&copy; {{ new Date().getFullYear() }}</span>
