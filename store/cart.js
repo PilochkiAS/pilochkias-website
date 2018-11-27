@@ -3,7 +3,28 @@ const state = () => ({
 })
 
 const getters = {
+  getSortedProducts (state) {
+    let products = [...new Set(state.products)]
 
+    products.forEach(product => {
+      let count = 0
+      let totalPrice = 0
+
+      state.products.forEach(item => {
+        if (item.id === product.id) {
+          count += 1
+
+          if (item.discount) totalPrice += item.discount
+          else totalPrice += item.price
+        }
+      })
+
+      product.number = count
+      product.totalPrice = totalPrice
+    })
+
+    return products
+  }
 }
 
 const mutations = {
@@ -14,7 +35,7 @@ const mutations = {
   },
   removeFromCart (state, product) {
     let products = state.products
-    products.push(product)
+    products = products.filter(item => item.id !== product.id)
     state.products = products
   }
 }

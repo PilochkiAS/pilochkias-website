@@ -6,7 +6,7 @@
         <v-spacer></v-spacer>
         <v-btn
                 icon
-                @click.stop="$emit('input', value = !value)"
+                @click.stop="closeSideBar"
         >
           <v-icon>close</v-icon>
         </v-btn>
@@ -17,7 +17,7 @@
     <v-container grid-list-md fluid class="cart-content px-0 pt-0">
       <v-layout column v-if="$store.state.cart.products.length > 0">
         <v-flex
-                v-for="item in $store.state.cart.products"
+                v-for="item in $store.getters.getSortedProducts"
                 :key="item.title"
                 xs4
         >
@@ -25,7 +25,15 @@
             <v-card-title primary-title class="py-1 px-3">
               <h4 class="mb-0">{{ item.title}}</h4>
               <v-spacer></v-spacer>
-              <v-btn icon small flat color="red" class="my-0 mr-0"><v-icon>close</v-icon></v-btn>
+              <v-btn icon
+                     small
+                     flat
+                     color="red"
+                     class="my-0 mr-0"
+                     @click="$store.commit('removeFromCart', item)"
+              >
+                <v-icon>close</v-icon>
+              </v-btn>
             </v-card-title>
 
             <v-layout class="ma-0 pb-2 px-3">
@@ -37,13 +45,13 @@
 
               <v-flex xs8 class="py-0">
                 <v-layout class="ma-0 px-1">
-                  <p class="ma-0">Цена:</p>
-                  <p class="primary--text ml-1 mb-0">{{ item.price }} грн</p>
+                  <p class="ma-0">Сумма:</p>
+                  <p class="primary--text ml-1 mb-0">{{ item.totalPrice }} грн</p>
                 </v-layout>
                 <v-layout class="ma-0 px-1">
                   <p class="ma-0">Количество:</p>
-                  <!--<p class="primary&#45;&#45;text">{{ item.price }} шт</p>-->
-                  <p class="primary--text ml-1 mb-0">1 шт</p>
+                  <p class="primary--text ml-1 mb-0">{{ item.number }} шт</p>
+                  <!--<p class="primary&#45;&#45;text ml-1 mb-0">1 шт</p>-->
                 </v-layout>
               </v-flex>
             </v-layout>
@@ -53,7 +61,7 @@
       </v-layout>
       <v-layout column
                 v-else
-                class="ma-0"
+                class="ma-0 pt-5"
                 align-center
       >
         <h3>Корзина пуста</h3>
@@ -63,8 +71,8 @@
 
     <div class="cart-footer pt-1">
       <v-divider></v-divider>
-      <v-layout class="ma-0 px-4">
-        <p class="ma-0">Обьектов в корзине:</p>
+      <v-layout class="ma-0 px-4 pt-2">
+        <p class="ma-0">Объектов в корзине:</p>
         <p class="primary--text ml-1 mb-0">{{ totalProductsNumber }} шт</p>
       </v-layout>
       <v-layout class="ma-0 px-4">
@@ -89,17 +97,6 @@
   export default {
     data () {
       return {
-        sheet: false,
-        products: [
-          { title: 'Вся продукция', to: '/products#all' },
-          { title: 'Пилки и файлы', to: '/products#saw-files' },
-          { title: 'Диски SMart', to: '/products#smart-disks' },
-          { title: 'Оборудование', to: '/products#equipment' }
-        ],
-        phones: [
-          { title: '+380970710071', link: `<a href="tel:380970710071">+380970710071</a>` },
-          { title: '+380963447307 (опт)', link: `<a href="tel:380963447307">+380963447307</a>` }
-        ]
       }
     },
     props: ['value'],
@@ -109,11 +106,15 @@
       },
       totalPrice () {
         let price = 0
-
-        this.$store.state.cart.products.forEach(product => {
-          price += product.price
+        this.$store.getters.getSortedProducts.forEach(product => {
+          price += product.totalPrice
         })
         return price
+      }
+    },
+    methods: {
+      closeSideBar () {
+        this.$emit('input', !this.value)
       }
     }
   }

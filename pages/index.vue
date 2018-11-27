@@ -109,18 +109,21 @@
         products: [
           {
             title: 'Пилочка для маникюра BANAN',
+            id: 'qweqweqwe1',
             price: 160,
             discount: 140,
             imgSrc: 'https://images.ua.prom.st/912158191_w800_h640_dsc_0003.jpg'
           },
           {
             title: 'Пилочка для маникюра МAXI',
+            id: 'qweqweqwe2',
             price: 180,
             discount: 0,
             imgSrc: 'https://images.ua.prom.st/912416731_w800_h640_dsc_0788.jpg'
           },
           {
             title: 'Основа для маникюра BAF',
+            id: 'qweqweqwe3',
             price: 90,
             discount: 0,
             imgSrc: 'https://images.ua.prom.st/912438962_w800_h640_dsc_0133.jpg'
