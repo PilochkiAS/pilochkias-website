@@ -14,34 +14,41 @@
       <v-divider></v-divider>
     </div>
 
-    <v-container grid-list-md fluid class="cart-content px-0">
+    <v-container grid-list-md fluid class="cart-content px-0 pt-0">
       <v-layout column v-if="$store.state.cart.products.length > 0">
         <v-flex
                 v-for="item in $store.state.cart.products"
                 :key="item.title"
                 xs4
         >
-          <v-card flat tile class="px-3">
-            <v-img
-                    :src="item.imgSrc"
-                    height="90px"
-            ></v-img>
-
-            <v-card-title primary-title class="pa-1">
-              <div>
-                <h4 class="mb-0">{{ item.title}}</h4>
-                <!--<div>Located two hours south of Sydney in the <br>Southern Highlands of New South Wales, ...</div>-->
-              </div>
+          <v-card flat tile class="py-0 px-0">
+            <v-card-title primary-title class="py-1 px-3">
+              <h4 class="mb-0">{{ item.title}}</h4>
+              <v-spacer></v-spacer>
+              <v-btn icon small flat color="red" class="my-0 mr-0"><v-icon>close</v-icon></v-btn>
             </v-card-title>
 
-            <v-card-actions class="pt-0">
-              <p class="primary--text">{{ item.price }} грн</p>
-              <v-spacer></v-spacer>
-              <v-btn icon flat color="red"><v-icon>delete</v-icon></v-btn>
-            </v-card-actions>
-          </v-card>
-          <v-divider></v-divider>
+            <v-layout class="ma-0 pb-2 px-3">
+              <v-img
+                      :src="item.imgSrc"
+                      height="50px"
+                      width="50px"
+              ></v-img>
 
+              <v-flex xs8 class="py-0">
+                <v-layout class="ma-0 px-1">
+                  <p class="ma-0">Цена:</p>
+                  <p class="primary--text ml-1 mb-0">{{ item.price }} грн</p>
+                </v-layout>
+                <v-layout class="ma-0 px-1">
+                  <p class="ma-0">Количество:</p>
+                  <!--<p class="primary&#45;&#45;text">{{ item.price }} шт</p>-->
+                  <p class="primary--text ml-1 mb-0">1 шт</p>
+                </v-layout>
+              </v-flex>
+            </v-layout>
+            <v-divider></v-divider>
+          </v-card>
         </v-flex>
       </v-layout>
       <v-layout column
@@ -56,8 +63,16 @@
 
     <div class="cart-footer pt-1">
       <v-divider></v-divider>
+      <v-layout class="ma-0 px-4">
+        <p class="ma-0">Обьектов в корзине:</p>
+        <p class="primary--text ml-1 mb-0">{{ totalProductsNumber }} шт</p>
+      </v-layout>
+      <v-layout class="ma-0 px-4">
+        <p class="ma-0">Общая сумма:</p>
+        <p class="primary--text ml-1 mb-0">{{ totalPrice }} грн</p>
+      </v-layout>
 
-      <v-layout class="py-2">
+      <v-layout class="go-to-order-btn py-2">
         <v-btn
                 slot="activator"
                 color="accent"
@@ -87,7 +102,20 @@
         ]
       }
     },
-    props: ['value']
+    props: ['value'],
+    computed: {
+      totalProductsNumber () {
+        return this.$store.state.cart.products.length
+      },
+      totalPrice () {
+        let price = 0
+
+        this.$store.state.cart.products.forEach(product => {
+          price += product.price
+        })
+        return price
+      }
+    }
   }
 </script>
 
@@ -111,7 +139,7 @@
     /*position: relative;*/
     /*bottom: 0;*/
 
-    .layout {
+    .go-to-order-btn {
       display: flex;
       justify-content: center;
     }
