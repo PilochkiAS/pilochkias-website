@@ -46,7 +46,7 @@
       <v-flex  xs12 md6>
         <h2 class="pt-4 pb-4 text-xs-center">Наиболее популярные товары</h2>
 
-        <v-carousel light class="carousel2" height="300">
+        <v-carousel light class="carousel2" height="280">
           <v-carousel-item
                   v-for="item in products"
                   :key="item.title"
@@ -65,7 +65,7 @@
       <v-flex xs12 md6>
         <h2 class="pt-4 pb-4 text-xs-center">Акции и скидки</h2>
 
-        <v-carousel light class="carousel2" height="300">
+        <v-carousel light class="carousel2" height="280">
           <v-carousel-item
                   v-for="item in products"
                   :key="item.title"

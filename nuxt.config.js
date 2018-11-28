@@ -41,6 +41,7 @@ module.exports = {
     '@nuxtjs/pwa'
   ],
   build: {
+    watch: ['server'],
     extractCSS: true,
     extend (config, ctx) {
       // Run ESLint on save
@@ -53,5 +54,8 @@ module.exports = {
         })
       }
     }
-  }
+  },
+  serverMiddleware: [
+    '~/server/index.js'
+  ]
 }
