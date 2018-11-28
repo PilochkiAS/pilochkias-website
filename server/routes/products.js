@@ -7,8 +7,8 @@ const router = express.Router();
 router.use(function timeLog(req, res, next) {
   console.log(
     '==>'.green ,
-    'Time: '.cyan,
-    moment().format('MM.DD.YY, h:mm:ss a'),
+    'Time: '.blue,
+    moment().format('DD.MM.YY, h:mm:ss a'),
     '||'.green,
     req.originalUrl
   );

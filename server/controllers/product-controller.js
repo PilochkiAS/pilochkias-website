@@ -6,9 +6,15 @@ const ObjectId = Types.ObjectId;
 module.exports = {
   /**
    *  GET /api/products
+   *  query parameters:
+   *  - category=[0 to 6]
    * */
   async getProducts (req, res, next) {
     const products = Products.find()
+
+    if (req.query.category && req.query.category !== '0') {
+      products.find({category: req.query.category})
+    }
 
     products.exec(async (err, docs) => {
       if (err) {
