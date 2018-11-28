@@ -2,17 +2,7 @@
   <v-layout row justify-center>
     <v-flex xs12 lg12 md12>
       <v-toolbar class="mb-4">
-        <v-breadcrumbs icons class="px-0">
-          <v-breadcrumbs-item
-                  v-for="item in breadcrumbs"
-                  :key="item.text"
-                  :disabled="item.disabled"
-          >
-            <v-icon v-if="item.isHome">home</v-icon>
-            {{ item.text }}
-          </v-breadcrumbs-item>
-          <v-icon slot="divider" class="px-0">chevron_right</v-icon>
-        </v-breadcrumbs>
+        <h3 class="grey--text">{{ category.title }}</h3>
         <v-spacer></v-spacer>
         <v-toolbar-items>
           <v-btn icon class="mx-sm-0"><v-icon>filter_list</v-icon></v-btn>
@@ -24,7 +14,7 @@
         </v-toolbar-items>
       </v-toolbar>
         <v-container>
-            <ProductsContent :isModuleList="isModuleList"/>
+          <ProductsContent :isModuleList="isModuleList" :category="category.id"/>
         </v-container>
     </v-flex>
   </v-layout>
@@ -36,54 +26,52 @@
   export default {
     data () {
       return {
-        breadcrumbs: [
-          {
-            text: '',
-            isHome: true,
-            disabled: false,
-            href: '/'
-          },
-          {
-            text: 'Товары',
-            disabled: true,
-            href: '/products'
-          }
-        ],
-        isModuleList: true
+        isModuleList: true,
+        category: { title: 'Вся продукция', id: '0' },
+        categories: [
+          { title: 'Вся продукция', id: '0' },
+          { title: 'Пилочки для маникюра и педикюра', id: '1' },
+          { title: 'Сменные файлы для пилочек', id: '2' },
+          { title: 'Наборы с Podo-Disk', id: '3' },
+          { title: 'Шрифты для гравировки', id: '4' },
+          { title: 'Сменные файлы для Podo-Disk', id: '5' },
+          { title: 'Наборы Баф BLACK', id: '6' }
+        ]
       }
     },
     created () {
-      this.handleHash(this.$route.hash)
+      this.handleHash(this.$route.query)
     },
     methods: {
-      handleHash (hash) {
-        switch (hash) {
-          case '#all':
-            this.breadcrumbs[1].text = 'Вся продукция'
-            this.breadcrumbs[1].link = '/products#all'
-            this.breadcrumbs[1].disabled = false
+      handleHash (query) {
+        switch (query.category) {
+          case '1':
+            this.category = this.categories[1]
             break
-          case '#saw-files':
-            this.breadcrumbs[1].text = 'Пилки и файлы'
-            this.breadcrumbs[1].link = '/products#saw-files'
-            this.breadcrumbs[1].disabled = false
+          case '2':
+            this.category = this.categories[2]
             break
-          case '#smart-disks':
-            this.breadcrumbs[1].text = 'Диски SMart'
-            this.breadcrumbs[1].link = '/products#smart-disks'
-            this.breadcrumbs[1].disabled = false
+          case '3':
+            this.category = this.categories[3]
             break
-          case '#equipment':
-            this.breadcrumbs[1].text = 'Оборудование'
-            this.breadcrumbs[1].link = '/products#equipment'
-            this.breadcrumbs[1].disabled = false
+          case '4':
+            this.category = this.categories[4]
+            break
+          case '5':
+            this.category = this.categories[5]
+            break
+          case '6':
+            this.category = this.categories[6]
+            break
+          default:
+            this.category = this.categories[0]
             break
         }
       }
     },
     watch: {
       $route (to, from) {
-        this.handleHash(to.hash)
+        this.handleHash(to.query)
       }
     },
     components: {
@@ -93,20 +81,39 @@
 </script>
 
 <style lang="stylus" scoped>
-  .v-breadcrumbs li:nth-child(even) {
-    padding: 0 6px;
+  .product-categories-btn {
+    width: 230px;
   }
   .w-100 {
     width: 100%;
   }
 
   @media screen and (max-width: 960px) {
-    .v-breadcrumbs li:nth-child(even) {
-      padding: 0 6px;
-    }
     .mx-sm-0 {
       margin-left: 0;
       margin-right: 0;
     }
+  }
+</style>
+
+<style lang="stylus">
+  .product-categories-btn {
+    .v-input__control {
+      height: 48px;
+    }
+    .v-input__slot {
+      margin: 0;
+    }
+    .v-input__append-inner {
+      margin: 0;
+    }
+    .v-text-field {
+      padding: 0;
+    }
+    .v-select__selections {
+      flex-wrap: nowrap;
+    }
+  }
+  @media screen and (max-width: 960px) {
   }
 </style>

@@ -32,7 +32,7 @@
                 :to="product.to"
                 active-class="secondary primary--text"
                 exact>
-          <v-list-tile-title class="pl-5">{{ product.title }}</v-list-tile-title>
+          <v-list-tile-title class="">{{ product.title }}</v-list-tile-title>
         </v-list-tile>
 
       </v-list-group>
@@ -104,14 +104,17 @@
       return {
         sheet: false,
         products: [
-          { title: 'Вся продукция', to: '/products#all' },
-          { title: 'Пилки и файлы', to: '/products#saw-files' },
-          { title: 'Диски SMart', to: '/products#smart-disks' },
-          { title: 'Оборудование', to: '/products#equipment' }
+          { title: 'Вся продукция', to: '/products' },
+          { title: 'Пилочки для маникюра и педикюра', to: '/products?category=1' },
+          { title: 'Сменные файлы для пилочек', to: '/products?category=2' },
+          { title: 'Наборы с Podo-Disk', to: '/products?category=3' },
+          { title: 'Шрифты для гравировки', to: '/products?category=4' },
+          { title: 'Сменные файлы для Podo-Disk', to: '/products?category=5' },
+          { title: 'Наборы Баф BLACK', to: '/products?category=6' }
         ],
         phones: [
           { title: '+380970710071', link: `<a href="tel:380970710071">+380970710071</a>` },
-          { title: '+380963447307 (опт)', link: `<a href="tel:380963447307">+380963447307</a>` }
+          { title: '+380963447307', link: `<a href="tel:380963447307">+380963447307</a>` }
         ]
       }
     }

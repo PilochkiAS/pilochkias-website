@@ -28,7 +28,7 @@ module.exports = {
     name: 'PilochkiAS',
     lang: 'ru',
     theme_color: '#26C6DA',
-    short_name: 'PilkiAS'
+    short_name: 'PilochkiAS'
   },
   workbox: {
     debug: true
@@ -38,7 +38,8 @@ module.exports = {
     mobileAppIOS: true
   },
   modules: [
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    '@nuxtjs/axios'
   ],
   build: {
     watch: ['server'],

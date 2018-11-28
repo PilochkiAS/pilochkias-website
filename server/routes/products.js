@@ -5,7 +5,13 @@ const controller = require('../controllers/product-controller')
 const router = express.Router();
 
 router.use(function timeLog(req, res, next) {
-  console.log('==>'.green ,'Time: '.cyan, moment().format('MM.DD.YY, h:mm:ss a'));
+  console.log(
+    '==>'.green ,
+    'Time: '.cyan,
+    moment().format('MM.DD.YY, h:mm:ss a'),
+    '||'.green,
+    req.originalUrl
+  );
   next();
 });
 
