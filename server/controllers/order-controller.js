@@ -1,0 +1,103 @@
+const axios = require('axios')
+const Orders = require('../models/orders')
+const { Types } = require('mongoose')
+const ObjectId = Types.ObjectId;
+
+module.exports = {
+  /**
+   *  GET /api/orders
+   * */
+  async getOrders (req, res, next) {
+    let orders = Orders.find()
+
+    if (req.query.populate) orders.populate('products')
+
+    orders.exec(async (err, docs) => {
+      if (err) {
+        res.status(500).send({ error: { message: err.message, info: err }})
+        return
+      }
+
+      res.send({
+        data: docs
+      })
+    })
+  },
+  /**
+   *  GET /api/order/:id
+   * */
+  async getOrderById (req, res, next) {
+
+    await Orders.findOne({_id: ObjectId(req.params.id)}, function (err, doc) {
+      if (err) {
+        res.status(500).send({ error: { message: err.message, info: err }})
+        return
+      }
+
+      res.send({
+        data: doc
+      })
+    })
+  },
+  /**
+   *  POST /api/orders
+   *  --------OR---------
+   *  PUT /api/order/:id
+   * */
+  async createOrUpdateOrder (req, res, next) {
+    try {
+      const { id } = req.params
+      const data = req.body
+      let order = {}
+
+      if (!data.products || !data.customer || !data.isDone) {
+        new Error('Wrong data')
+      }
+
+      if (id) {
+        Orders.findByIdAndUpdate(id, { $set: data}, { new: true }, function (err, doc) {
+          if (err) new Error(err.message)
+          res.send(doc)
+        })
+      } else {
+        order = new Orders(data)
+
+        res.send({
+          data: await order.save()
+        })
+      }
+
+    } catch (err) {
+      res.status(500).send({ error: { message: err.message, info: err }})
+    }
+  },
+  /**
+   *  DELETE /api/order/:id
+   * */
+  async removeOrder (req, res, next) {
+    try {
+      const {id} = req.params
+
+      Orders.findById(id, (err, doc) => {
+        if (!doc || err) {
+          res.status(500).send({ error: { message: 'Unable to remove the order.'}})
+          return
+        }
+
+        doc.remove((err, doc) => {
+          if (err) {
+            res.status(500).send({ error: { message: 'Error occurred.'}})
+            return
+          }
+
+          res.send({
+            data: 'Order deleted successfully.'
+          })
+        });
+      })
+
+    } catch (err) {
+      res.status(500).send({ error: { message: err.message, info: err }})
+    }
+  },
+}
