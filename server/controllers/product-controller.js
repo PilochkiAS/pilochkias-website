@@ -38,7 +38,7 @@ module.exports = {
     })
   },
   /**
-   *  POST /api/product
+   *  POST /api/products
    *  --------OR---------
    *  PUT /api/product/:id
    * */
@@ -75,19 +75,24 @@ module.exports = {
   async removeProduct (req, res, next) {
     try {
       const {id} = req.params
-      const product = await Products.findById(id)
 
-      if (!product) new Error('Unable to find the product you are looking for.')
+      Products.findById(id, (err, doc) => {
+        if (!doc || err) {
+          res.status(500).send({ error: { message: 'Unable to remove the product.'}})
+          return
+        }
 
-      let data = await Products.deleteOne({_id: ObjectId(id)});
+        doc.remove((err, doc) => {
+          if (err) {
+            res.status(500).send({ error: { message: 'Error occurred.'}})
+            return
+          }
 
-      if(data.ok === 1){
-        res.send({
-          data: 'Product deleted successfully.'
-        })
-      }else{
-        new Error('An error occurred.')
-      }
+          res.send({
+            data: 'Product deleted successfully.'
+          })
+        });
+      })
     } catch (err) {
       res.status(500).send({ error: { message: err.message, info: err }})
     }

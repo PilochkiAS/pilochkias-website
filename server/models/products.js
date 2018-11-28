@@ -28,4 +28,13 @@ const ProductsSchema = new Schema({
 
 ProductsSchema.set('toJSON', { versionKey: false })
 
+OrdersSchema.pre('remove', function(next) {
+  // 'this' is the client being removed. Provide callbacks here if you want
+  // to be notified of the calls' result.
+  //this.model('Voucher').remove({ user: this._id }, next);
+
+  console.log("==> pre remove test".green);
+  next();
+});
+
 module.exports = mongoose.model('Products', ProductsSchema)
