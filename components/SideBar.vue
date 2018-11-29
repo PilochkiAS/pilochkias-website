@@ -87,7 +87,9 @@
                     :key="item.title"
             >
               <v-list-tile-content>
-                <v-list-tile-title v-html="item.link"></v-list-tile-title>
+                <no-ssr>
+                  <v-list-tile-title v-html="item.link"></v-list-tile-title>
+                </no-ssr>
               </v-list-tile-content>
             </v-list-tile>
           </template>
