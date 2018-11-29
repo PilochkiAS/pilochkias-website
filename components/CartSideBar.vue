@@ -38,7 +38,7 @@
 
             <v-layout class="ma-0 pb-2 px-3">
               <v-img
-                      :src="item.imgSrc"
+                      :src="getImageUrl(item.mainImage)"
                       height="50px"
                       width="50px"
               ></v-img>
@@ -115,6 +115,9 @@
     methods: {
       closeSideBar () {
         this.$emit('input', !this.value)
+      },
+      getImageUrl (id) {
+        if (id) return '/api/image/' + id
       }
     }
   }
