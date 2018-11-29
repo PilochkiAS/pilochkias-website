@@ -41,6 +41,11 @@ module.exports = {
     '@nuxtjs/pwa',
     '@nuxtjs/axios'
   ],
+  axios: {
+    baseURL: '/',
+    proxyHeaders: false,
+    credentials: false
+  },
   build: {
     watch: ['server'],
     extractCSS: true,
