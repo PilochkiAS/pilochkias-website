@@ -1,14 +1,22 @@
 <template>
-  <v-card flat tile hover>
+  <v-card flat tile hover class="product-card">
     <v-layout :column="isModuleList" class="custom-cards">
       <v-flex xs5 class="py-0">
-        <!--<v-img-->
-        <!--:src="`https://unsplash.it/150/300?image=${Math.floor(Math.random() * 100) + 1}`"-->
-        <!--height="150px"-->
-        <!--&gt;</v-img>-->
         <v-img
                 :src="getImageUrl(item.mainImage)"
                 height="150px"
+                class="main-image"
+        >
+          <v-layout fill-height class="ma-0">
+            <span class="white--text discount-label pa-1" v-if="item.discount > 0">
+              <v-img src="/sale.png" height="40" width="40"/>
+            </span>
+          </v-layout>
+        </v-img>
+        <v-img
+                :src="getImageUrl(item.secondImage)"
+                height="150px"
+                class="second-image"
         >
           <v-layout fill-height class="ma-0">
             <span class="white--text discount-label pa-1" v-if="item.discount > 0">
@@ -60,10 +68,7 @@
     },
     methods: {
       getImageUrl (id) {
-        if (id) {
-          return '/api/image/' + id
-        }
-        return ''
+        return id ? '/api/image/' + id : ''
       }
     },
     props: ['isModuleList', 'item']
@@ -76,6 +81,25 @@
   }
   .discount {
     text-decoration: line-through;
+  }
+  .product-card {
+    .main-image {
+      transition: all ease-in 300ms;
+      height: 150px !important;
+    }
+    .second-image {
+      transition: all ease-in 300ms;
+      height: 0 !important;
+    }
+
+    &:hover {
+      .main-image {
+        height: 0 !important;
+      }
+      .second-image {
+        height: 150px !important;
+      }
+    }
   }
   .discount-label {
     height: 2rem;
