@@ -11,7 +11,7 @@ const getters = {
       let totalPrice = 0
 
       state.products.forEach(item => {
-        if (item.id === product.id) {
+        if (item._id === product._id) {
           count += 1
 
           if (item.discount) totalPrice += item.discount
@@ -35,7 +35,7 @@ const mutations = {
   },
   removeFromCart (state, product) {
     let products = state.products
-    products = products.filter(item => item.id !== product.id)
+    products = products.filter(item => item._id !== product._id)
     state.products = products
   }
 }

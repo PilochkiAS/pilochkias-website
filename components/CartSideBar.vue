@@ -85,11 +85,29 @@
                 slot="activator"
                 color="accent"
                 dark
+                @click="makeOrder"
         >
           Перейти к заказу
         </v-btn>
       </v-layout>
     </div>
+
+    <v-snackbar
+            v-model="snackbar"
+            :color="snackbarColor"
+            :timeout="2000"
+            top
+            right
+    >
+      {{ snackbarMessage }}
+      <v-btn
+              dark
+              flat
+              @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-layout>
 </template>
 
@@ -97,6 +115,9 @@
   export default {
     data () {
       return {
+        snackbarMessage: '',
+        snackbarColor: '',
+        snackbar: false
       }
     },
     props: ['value'],
@@ -116,8 +137,49 @@
       closeSideBar () {
         this.$emit('input', !this.value)
       },
+
       getImageUrl (id) {
         if (id) return '/api/image/' + id
+      },
+
+      callSnackbar (message, color) {
+        this.snackbarMessage = message
+        this.snackbarColor = color
+        this.snackbar = true
+      },
+
+      makeOrder () {
+        console.log('==> makeOrder', this.$store.getters.getSortedProducts)
+
+        const products = this.$store.getters.getSortedProducts.map(item => {
+          return {
+            product: item._id,
+            totalPrice: item.totalPrice,
+            number: item.number
+          }
+        })
+
+        const order = {
+          products,
+          customer: {
+            fullName: 'Ivan Ivanov',
+            phone: '+380733333333',
+            address: 'Test address'
+          },
+          isDone: false
+        }
+
+        const confirmOrder = confirm('Подтвердите заказ')
+
+        if (confirmOrder) {
+          this.createOrder(order).then(res => {
+            this.callSnackbar('Заказ успешно оформлен.', 'success')
+          })
+        }
+      },
+      async createOrder (orders) {
+        const { data } = await this.$axios.post('/api/orders', orders)
+        console.log('==> createOrder', data)
       }
     }
   }
