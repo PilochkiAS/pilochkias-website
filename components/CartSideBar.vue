@@ -149,8 +149,18 @@
       },
 
       makeOrder () {
+        console.log('==> makeOrder', this.$store.getters.getSortedProducts)
+
+        const products = this.$store.getters.getSortedProducts.map(item => {
+          return {
+            product: item._id,
+            totalPrice: item.totalPrice,
+            number: item.number
+          }
+        })
+
         const order = {
-          products: this.$store.state.cart.products,
+          products,
           customer: {
             fullName: 'Ivan Ivanov',
             phone: '+380733333333',

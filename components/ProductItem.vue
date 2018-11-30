@@ -1,29 +1,21 @@
 <template>
   <v-card flat tile hover class="product-card">
     <v-layout :column="isModuleList" class="custom-cards">
-      <v-flex xs5 class="py-0">
+      <v-flex xs5 class="py-0 product-images">
+        <div class="discount-label pa-2" v-if="item.discount > 0">
+          <v-img src="/sale.png" height="40" width="40"/>
+        </div>
+
         <v-img
                 :src="getImageUrl(item.mainImage)"
                 height="150px"
                 class="main-image"
-        >
-          <v-layout fill-height class="ma-0">
-            <span class="white--text discount-label pa-1" v-if="item.discount > 0">
-              <v-img src="/sale.png" height="40" width="40"/>
-            </span>
-          </v-layout>
-        </v-img>
+        ></v-img>
         <v-img
                 :src="getImageUrl(item.secondImage)"
                 height="150px"
                 class="second-image"
-        >
-          <v-layout fill-height class="ma-0">
-            <span class="white--text discount-label pa-1" v-if="item.discount > 0">
-              <v-img src="/sale.png" height="40" width="40"/>
-            </span>
-          </v-layout>
-        </v-img>
+        ></v-img>
       </v-flex>
 
       <v-flex xs7>
@@ -101,8 +93,15 @@
       }
     }
   }
+  .product-images {
+    position: relative;
+  }
   .discount-label {
     height: 2rem;
+    position: absolute;
+    top: 0;
+    letf: 0;
+    z-index: 2;
   }
 
   @media screen and (max-width: 960px) {
