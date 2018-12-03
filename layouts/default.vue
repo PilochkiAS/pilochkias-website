@@ -105,9 +105,6 @@
       this.$vuetify.theme.accent = '#26C6DA'
     },
     computed: {
-      cartProducts (value) {
-        return this.$store.state.cart.products
-      }
     },
     components: {
       SideBar,

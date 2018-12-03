@@ -1,22 +1,24 @@
 <template>
   <v-card flat tile hover class="product-card">
     <v-layout :column="isModuleList" class="custom-cards">
-      <v-flex xs5 class="py-0 product-images">
-        <div class="discount-label pa-2" v-if="item.discount > 0">
-          <v-img src="/sale.png" height="40" width="40"/>
-        </div>
+      <no-ssr>
+        <v-flex xs5 class="py-0 product-images">
+          <div class="discount-label pa-2" v-if="item.discount > 0">
+            <v-img src="/sale.png" height="40" width="40"/>
+          </div>
 
-        <v-img
-                :src="getImageUrl(item.mainImage)"
-                height="150px"
-                class="main-image"
-        ></v-img>
-        <v-img
-                :src="getImageUrl(item.secondImage)"
-                height="150px"
-                class="second-image"
-        ></v-img>
-      </v-flex>
+          <v-img
+                  :src="getImageUrl(item.mainImage)"
+                  height="150px"
+                  class="main-image"
+          ></v-img>
+          <v-img
+                  :src="getImageUrl(item.secondImage)"
+                  height="150px"
+                  class="second-image"
+          ></v-img>
+        </v-flex>
+      </no-ssr>
 
       <v-flex xs7>
         <v-card-title primary-title class="py-0">
