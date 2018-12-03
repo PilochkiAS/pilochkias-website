@@ -23,18 +23,21 @@
     },
     props: ['isModuleList', 'category'],
     methods: {
-      async fetchProducts () {
-        const res = await this.$axios.$get(`/api/products?category=${this.category}`)
-        this.products = res.data
+      async getProductsByCategory () {
+        if (this.category > 0) {
+          this.products = this.$store.getters.getProductsByCategory(this.category)
+        } else {
+          this.products = this.$store.state.products.products
+        }
       }
     },
     async mounted () {
-      await this.fetchProducts()
+      await this.getProductsByCategory()
     },
     watch: {
       category: {
         handler: async function (to, from) {
-          await this.fetchProducts()
+          await this.getProductsByCategory()
         },
         deep: true
       }

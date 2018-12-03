@@ -39,6 +39,9 @@
         ]
       }
     },
+    async asyncData ({ store, route }) {
+      return store.dispatch('fetchProducts')
+    },
     created () {
       this.handleHash(this.$route.query)
     },

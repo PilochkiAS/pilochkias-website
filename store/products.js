@@ -24,6 +24,9 @@ const getters = {
     }
 
     return products
+  },
+  getProductsByCategory (state) {
+    return category => state.products.filter(item => parseInt(item.category) === parseInt(category))
   }
 }
 
