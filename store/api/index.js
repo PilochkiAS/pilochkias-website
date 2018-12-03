@@ -1,13 +1,9 @@
 import axios from 'axios'
 
-axios.defaults.baseURL = '/'
-axios.defaults.proxyHeaders = false
-axios.defaults.credentials = false
+// axios.defaults.baseURL = 'http://localhost:3000'
 
 const fetchProducts = async () => {
-  const { data } = await axios({
-    url: '/api/products'
-  })
+  const { data } = await axios('api/products')
 
   return data
 }
