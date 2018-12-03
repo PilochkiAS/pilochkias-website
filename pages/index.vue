@@ -228,7 +228,7 @@
     }
   }
   .v-carousel {
-    box-shadow: none;
+    box-shadow: none !important;
   }
 
   @media screen and (max-width: 960px) {
