@@ -42,13 +42,13 @@
       </v-btn>
     </v-layout>
 
-    <v-layout row class="products-carousels">
+    <v-layout row class="products-carousels my-5">
       <v-flex  xs12 md6>
         <h2 class="pt-4 pb-4 text-xs-center">Наиболее популярные товары</h2>
 
         <v-carousel light class="carousel2" height="280">
           <v-carousel-item
-                  v-for="item in products"
+                  v-for="item in $store.getters.getRandomProducts"
                   :key="item.title"
           >
 
@@ -62,12 +62,12 @@
         </v-carousel>
       </v-flex>
 
-      <v-flex xs12 md6>
+      <v-flex xs12 md6 v-if="$store.getters.getDiscountProducts.length > 0">
         <h2 class="pt-4 pb-4 text-xs-center">Акции и скидки</h2>
 
         <v-carousel light class="carousel2" height="280">
           <v-carousel-item
-                  v-for="item in products"
+                  v-for="item in $store.getters.getDiscountProducts"
                   :key="item.title"
           >
 
@@ -81,10 +81,16 @@
         </v-carousel>
       </v-flex>
     </v-layout>
+
+    <section4 />
+
+    <section5 />
   </v-layout>
 </template>
 <script>
   import ProductItem from '~/components/ProductItem'
+  import section4 from '~/components/sections/section4'
+  import section5 from '~/components/sections/section5'
 
   export default {
     data () {
@@ -106,35 +112,12 @@
             imgSrc: 'https://pilochki.com/files/12pzjm0qsiozn8kbg9xw/slider_original.jpg'
           }
         ],
-        products: [
-          {
-            title: 'Пилочка для маникюра BANAN',
-            id: 'qweqweqwe1',
-            price: 160,
-            discount: 140,
-            imgSrc: 'https://images.ua.prom.st/912158191_w800_h640_dsc_0003.jpg'
-          },
-          {
-            title: 'Пилочка для маникюра МAXI',
-            id: 'qweqweqwe2',
-            price: 180,
-            discount: 0,
-            imgSrc: 'https://images.ua.prom.st/912416731_w800_h640_dsc_0788.jpg'
-          },
-          {
-            title: 'Основа для маникюра BAF',
-            id: 'qweqweqwe3',
-            price: 90,
-            discount: 0,
-            imgSrc: 'https://images.ua.prom.st/912438962_w800_h640_dsc_0133.jpg'
-          }
-        ],
         isModuleList: true,
         pwaPrompt: null
       }
     },
-    components: {
-      ProductItem
+    async asyncData ({ store, route }) {
+      return store.dispatch('fetchProducts')
     },
     methods: {
       installAppBtnClick (e) {
@@ -160,6 +143,11 @@
         // Stash the event so it can be triggered later.
         this.pwaPrompt = e
       })
+    },
+    components: {
+      ProductItem,
+      section4,
+      section5
     }
   }
 </script>
