@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://localhost:80'
+if (process.env.NODE_ENV === 'development') {
+  axios.defaults.baseURL = 'http://localhost:3000'
+}
 axios.defaults.proxyHeaders = false
 axios.defaults.credentials = false
 
