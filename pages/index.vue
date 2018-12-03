@@ -42,7 +42,7 @@
       </v-btn>
     </v-layout>
 
-    <v-layout row class="products-carousels">
+    <v-layout row class="products-carousels my-5">
       <v-flex  xs12 md6>
         <h2 class="pt-4 pb-4 text-xs-center">Наиболее популярные товары</h2>
 
