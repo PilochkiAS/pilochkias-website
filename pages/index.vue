@@ -83,11 +83,14 @@
     </v-layout>
 
     <section4 />
+
+    <section5 />
   </v-layout>
 </template>
 <script>
   import ProductItem from '~/components/ProductItem'
   import section4 from '~/components/sections/section4'
+  import section5 from '~/components/sections/section5'
 
   export default {
     data () {
@@ -143,7 +146,8 @@
     },
     components: {
       ProductItem,
-      section4
+      section4,
+      section5
     }
   }
 </script>
