@@ -81,10 +81,13 @@
         </v-carousel>
       </v-flex>
     </v-layout>
+
+    <section4 />
   </v-layout>
 </template>
 <script>
   import ProductItem from '~/components/ProductItem'
+  import section4 from '~/components/sections/section4'
 
   export default {
     data () {
@@ -113,9 +116,6 @@
     async asyncData ({ store, route }) {
       return store.dispatch('fetchProducts')
     },
-    components: {
-      ProductItem
-    },
     methods: {
       installAppBtnClick (e) {
         // Show the prompt
@@ -140,6 +140,10 @@
         // Stash the event so it can be triggered later.
         this.pwaPrompt = e
       })
+    },
+    components: {
+      ProductItem,
+      section4
     }
   }
 </script>
