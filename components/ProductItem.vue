@@ -62,7 +62,14 @@
     },
     methods: {
       getImageUrl (id) {
-        return id ? '/api/image/' + id : ''
+        if (process.env.NODE_ENV === 'development') {
+          return id ? 'http://localhost/api/image/' + id : ''
+        } else if (process.env.NODE_ENV === 'production' && process.env.herokuBaseURL === 'true') {
+          console.log('==> process.env.herokuBaseURL:', process.env.herokuBaseURL)
+          return id ? 'https://pilochki-cms.herokuapp.com/api/image/' + id : ''
+        } else if (process.env.NODE_ENV === 'production') {
+          return id ? 'https://pilochki-cms.herokuapp.com/api/image/' + id : ''
+        }
       }
     },
     props: ['isModuleList', 'item']

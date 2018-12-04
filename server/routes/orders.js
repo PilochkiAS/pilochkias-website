@@ -9,11 +9,7 @@ router.use(function timeLog(req, res, next) {
   next();
 });
 
-router.get('/orders', controller.getOrders) // get all orders with filter
-router.get('/order/:id', controller.getOrderById) // get one order by id
 router.post('/orders', controller.createOrUpdateOrder) // create one order
-router.put('/order/:id', controller.createOrUpdateOrder) // update one order
-router.delete('/order/:id', controller.removeOrder) // remove one order
 
 module.exports = router
 
