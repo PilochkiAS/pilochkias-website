@@ -139,7 +139,14 @@
       },
 
       getImageUrl (id) {
-        if (id) return '/api/image/' + id
+        if (process.env.NODE_ENV === 'development') {
+          return id ? 'http://localhost/api/image/' + id : ''
+        } else if (process.env.NODE_ENV === 'production' && process.env.herokuBaseURL === 'true') {
+          console.log('==> process.env.herokuBaseURL:', process.env.herokuBaseURL)
+          return id ? 'https://pilochki-cms.herokuapp.com/api/image/' + id : ''
+        } else if (process.env.NODE_ENV === 'production') {
+          return id ? 'https://pilochki-cms.herokuapp.com/api/image/' + id : ''
+        }
       },
 
       callSnackbar (message, color) {
@@ -149,8 +156,6 @@
       },
 
       makeOrder () {
-        console.log('==> makeOrder', this.$store.getters.getSortedProducts)
-
         const products = this.$store.getters.getSortedProducts.map(item => {
           return {
             product: item._id,
@@ -178,8 +183,7 @@
         }
       },
       async createOrder (orders) {
-        const { data } = await this.$axios.post('/api/orders', orders)
-        console.log('==> createOrder', data)
+        await this.$axios.post('/api/orders', orders)
       }
     }
   }
