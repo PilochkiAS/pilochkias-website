@@ -18,29 +18,14 @@
   export default {
     data () {
       return {
-        products: []
       }
     },
-    props: ['isModuleList', 'category'],
+    props: ['isModuleList', 'category', 'products'],
     methods: {
-      async getProductsByCategory () {
-        if (this.category > 0) {
-          this.products = this.$store.getters.getProductsByCategory(this.category)
-        } else {
-          this.products = this.$store.state.products.products
-        }
-      }
     },
     async mounted () {
-      await this.getProductsByCategory()
     },
     watch: {
-      category: {
-        handler: async function (to, from) {
-          await this.getProductsByCategory()
-        },
-        deep: true
-      }
     },
     components: {
       ProductItem
