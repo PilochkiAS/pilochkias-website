@@ -26,7 +26,13 @@ const getters = {
     return products
   },
   getProductsByCategory (state) {
-    return category => state.products.filter(item => parseInt(item.category) === parseInt(category))
+    return category => {
+      if (category > 0) {
+        return state.products.filter(item => parseInt(item.category) === parseInt(category))
+      } else {
+        return state.products
+      }
+    }
   }
 }
 

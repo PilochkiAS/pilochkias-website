@@ -14,7 +14,19 @@
         </v-toolbar-items>
       </v-toolbar>
         <v-container>
-          <ProductsContent :isModuleList="isModuleList" :category="category.id"/>
+          <ProductsContent
+                  :isModuleList="isModuleList"
+                  :category="category.id"
+                  :products="products"
+          />
+          <v-pagination
+                  v-model="page"
+                  circle
+                  :length="paginationLength"
+                  :total-visible="7"
+                  class="pagination"
+                  v-if="paginationLength > 1"
+          ></v-pagination>
         </v-container>
     </v-flex>
   </v-layout>
@@ -26,6 +38,9 @@
   export default {
     data () {
       return {
+        page: 1,
+        paginationLength: 0,
+        productsPerPage: 9,
         isModuleList: true,
         category: { title: 'Вся продукция', id: '0' },
         categories: [
@@ -36,7 +51,8 @@
           { title: 'Шрифты для гравировки', id: '4' },
           { title: 'Сменные файлы для Podo-Disk', id: '5' },
           { title: 'Наборы Баф BLACK', id: '6' }
-        ]
+        ],
+        products: []
       }
     },
     async asyncData ({ store, route }) {
@@ -44,6 +60,7 @@
     },
     created () {
       this.handleHash(this.$route.query)
+      this.spliceProducts()
     },
     methods: {
       handleHash (query) {
@@ -70,12 +87,32 @@
             this.category = this.categories[0]
             break
         }
+      },
+      spliceProducts () {
+        const products = this.$store.getters.getProductsByCategory(this.category.id)
+        this.setPaginationLength(products)
+        this.products = products.slice(this.page * this.productsPerPage - this.productsPerPage, this.page * this.productsPerPage)
+      },
+      setPaginationLength (products) {
+        this.paginationLength = Math.ceil(products.length / this.productsPerPage)
       }
     },
     watch: {
       $route (to, from) {
         this.handleHash(to.query)
+      },
+      category: {
+        handler: function (to, from) {
+          this.spliceProducts()
+        },
+        deep: true
+      },
+      page () {
+        this.spliceProducts()
       }
+    },
+    mounted () {
+      this.productsPerPage = 8
     },
     components: {
       ProductsContent
@@ -89,6 +126,10 @@
   }
   .w-100 {
     width: 100%;
+  }
+  .pagination {
+    width: 100%;
+    justify-content: center;
   }
 
   @media screen and (max-width: 960px) {
