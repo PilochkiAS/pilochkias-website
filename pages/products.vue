@@ -7,27 +7,28 @@
         <v-toolbar-items>
           <v-btn icon class="mx-sm-0"><v-icon>filter_list</v-icon></v-btn>
           <v-btn icon class="mx-sm-0"><v-icon>swap_vert</v-icon></v-btn>
+          <v-btn icon :href="PDFUrl" class="mx-sm-0"><v-icon>arrow_downward</v-icon></v-btn>
           <v-btn icon class="mx-sm-0">
             <v-icon v-if="!isModuleList" @click="isModuleList = !isModuleList">view_module</v-icon>
             <v-icon v-else @click="isModuleList = !isModuleList">view_list</v-icon>
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
-        <v-container>
-          <ProductsContent
-                  :isModuleList="isModuleList"
-                  :category="category.id"
-                  :products="products"
-          />
-          <v-pagination
-                  v-model="page"
-                  circle
-                  :length="paginationLength"
-                  :total-visible="7"
-                  class="pagination"
-                  v-if="paginationLength > 1"
-          ></v-pagination>
-        </v-container>
+      <v-container>
+        <ProductsContent
+                :isModuleList="isModuleList"
+                :category="category.id"
+                :products="products"
+        />
+        <v-pagination
+                v-model="page"
+                circle
+                :length="paginationLength"
+                :total-visible="7"
+                class="pagination"
+                v-if="paginationLength > 1"
+        ></v-pagination>
+      </v-container>
     </v-flex>
   </v-layout>
 </template>
@@ -53,6 +54,17 @@
           { title: 'Наборы Баф BLACK', id: '6' }
         ],
         products: []
+      }
+    },
+    computed: {
+      PDFUrl () {
+        if (process.env.NODE_ENV === 'development') {
+          return 'http://localhost/api/price-list'
+        } else if (process.env.NODE_ENV === 'production' && process.env.herokuBaseURL === 'true') {
+          return 'https://pilochki-cms.herokuapp.com/api/price-list'
+        } else if (process.env.NODE_ENV === 'production') {
+          return 'https://pilochki-cms.herokuapp.com/api/price-list'
+        }
       }
     },
     async asyncData ({ store, route }) {
