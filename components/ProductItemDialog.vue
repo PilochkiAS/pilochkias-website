@@ -1,64 +1,58 @@
 <template>
-  <v-card flat tile hover class="product-card">
-    <v-layout :column="isModuleList" class="custom-cards">
-      <no-ssr>
-        <v-flex xs5 class="py-0 product-images">
-          <div class="discount-label pa-2" v-if="item.discount > 0">
-            <v-img src="/sale.png" height="40" width="40"/>
-          </div>
+  <v-dialog :value="value" @input="handleDialogChange" :fullscreen="isSmallScreen" :max-width="isSmallScreen ? null : 500" transition="dialog-bottom-transition">
+    <v-card>
+      <v-toolbar dark color="primary">
+        <v-btn icon dark @click="$emit('input', false)">
+          <v-icon>close</v-icon>
+        </v-btn>
+        <v-toolbar-title>{{ product.title }}</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-toolbar-items>
+          <v-btn icon
+                 class="action-btn"
+                 @click="$store.commit('addToCart', product)"
+          >
+            <v-icon>add_shopping_cart</v-icon>
+          </v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
 
-          <v-img
-                  :src="getImageUrl(item.mainImage)"
-                  height="150px"
-                  class="main-image"
-          ></v-img>
-          <v-img
-                  :src="getImageUrl(item.secondImage)"
-                  height="150px"
-                  class="second-image"
-          ></v-img>
-        </v-flex>
-      </no-ssr>
+      <v-layout column fill-height class="dialog-content pb-5">
+        <div class="discount-label pa-2" v-if="product.discount > 0">
+          <v-img src="/sale.png" height="40" width="40"/>
+        </div>
+        <v-img
+            :src="getImageUrl(product.mainImage)"
+            height="200px"
+            class="main-image"
+        ></v-img>
+        <span class="price-label accent primary--text py-1 px-4 font-weight-bold">{{ product.discount ? product.discount : product.price }}грн</span>
+        <v-layout column class="px-4 pt-4">
+          <h6 class="title text-xs-center">{{ product.title }}</h6>
+          <p class="subheading mt-3">{{ product.description }}</p>
+        </v-layout>
 
-      <v-flex xs7>
-        <v-card-title primary-title class="py-0 card-title__height">
-          <div>
-            <div class="subheading">{{ item.title }}</div>
-          </div>
-        </v-card-title>
-      </v-flex>
-    </v-layout>
+      </v-layout>
 
-    <v-divider light inner></v-divider>
 
-    <v-card-actions>
-      <div :class="item.discount > 0 ? 'grey--text discount mr-1' : 'accent--text font-weight-bold'" >{{ item.price }} грн</div>
-      <div class="accent--text" v-if="item.discount > 0">{{ item.discount }} грн</div>
-      <v-spacer></v-spacer>
-      <v-btn icon :class="isModuleList ? 'action-btn hidden-sm-and-down':'action-btn'">
-        <v-icon>favorite</v-icon>
-      </v-btn>
-      <v-btn icon :class="isModuleList ? 'action-btn hidden-sm-and-down':'action-btn'">
-        <v-icon>share</v-icon>
-      </v-btn>
-      <v-btn icon
-             class="action-btn"
-             @click="$store.commit('addToCart', item)"
-      >
-        <v-icon>add_shopping_cart</v-icon>
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
   export default {
     data () {
       return {
+        isSmallScreen: false
       }
     },
+    props: ['value', 'product'],
     created () {
 
+    },
+    mounted () {
+      this.onResize()
+      window.addEventListener('resize', this.onResize)
     },
     methods: {
       getImageUrl (id) {
@@ -70,40 +64,37 @@
         } else if (process.env.NODE_ENV === 'production') {
           return id ? 'https://pilochki-cms.herokuapp.com/api/image/' + id : ''
         }
+      },
+      onResize () {
+        clearTimeout(this.resizeTimeout)
+
+        if (document.body.clientWidth < 960) {
+          this.resizeTimeout = setTimeout(() => {
+            this.isSmallScreen = true
+          }, 300)
+        }
+        if (document.body.clientWidth > 960) {
+          this.resizeTimeout = setTimeout(() => {
+            this.isSmallScreen = false
+          }, 300)
+        }
+      },
+      handleDialogChange () {
+        this.$emit('input', false)
       }
-    },
-    props: ['isModuleList', 'item']
+    }
   }
 </script>
 
 <style lang="stylus" scoped>
-  .v-btn.action-btn:hover .v-btn__content .v-icon {
-    color: #26C6DA;
-  }
-  .discount {
-    text-decoration: line-through;
-  }
-  .product-card {
-    .main-image {
-      transition: all ease-in 300ms;
-      height: 150px !important;
-    }
-    .second-image {
-      transition: all ease-in 300ms;
-      height: 0 !important;
-    }
-
-    &:hover {
-      .main-image {
-        height: 0 !important;
-      }
-      .second-image {
-        height: 150px !important;
-      }
-    }
-  }
-  .product-images {
+  .dialog-content {
     position: relative;
+  }
+  .price-label {
+    position: absolute;
+    width: auto;
+    right: 0;
+    top: 185px;
   }
   .discount-label {
     height: 2rem;
@@ -112,16 +103,10 @@
     letf: 0;
     z-index: 2;
   }
-  .card-title__height {
-    height: 48px;
-    overflow: hidden;
-  }
-
   @media screen and (max-width: 960px) {
   }
 </style>
 <style lang="stylus">
-
 
   @media screen and (max-width: 960px) {
   }

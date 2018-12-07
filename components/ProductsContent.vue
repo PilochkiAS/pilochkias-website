@@ -3,32 +3,42 @@
     <v-flex>
       <v-container grid-list-lg fluid class="px-0">
         <v-layout :column="!isModuleList" wrap>
-          <v-flex xs6 md4 v-for="item in products" :key="item._id">
+          <v-flex xs6 md4 v-for="item in products" :key="item._id" @click.native.stop="openDialog(item)" @click="openDialog(item)">
             <ProductItem :isModuleList="isModuleList" :item="item"/>
           </v-flex>
         </v-layout>
       </v-container>
     </v-flex>
+
+    <product-item-dialog v-model="dialog" :product="chosenProduct"/>
   </v-layout>
 </template>
 
 <script>
   import ProductItem from '~/components/ProductItem'
+  import ProductItemDialog from '~/components/ProductItemDialog'
 
   export default {
     data () {
       return {
+        dialog: false,
+        chosenProduct: {}
       }
     },
     props: ['isModuleList', 'category', 'products'],
     methods: {
+      openDialog (product) {
+        this.dialog = true
+        this.chosenProduct = product
+      }
     },
     async mounted () {
     },
     watch: {
     },
     components: {
-      ProductItem
+      ProductItem,
+      ProductItemDialog
     }
   }
 </script>
