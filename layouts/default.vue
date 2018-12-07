@@ -127,7 +127,7 @@
     created () {
       this.$vuetify.theme.primary = '#152C41'
       this.$vuetify.theme.secondary = '#CCD6E0'
-      this.$vuetify.theme.accent = '#247BC8'
+      this.$vuetify.theme.accent = '#26C6DA'
     },
     computed: {
     },
