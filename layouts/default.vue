@@ -18,6 +18,12 @@
 
       <v-btn
               icon
+              @click.stop="changeTheme"
+      >
+        <v-icon>format_paint</v-icon>
+      </v-btn>
+      <v-btn
+              icon
               @click.stop="rightDrawer = !rightDrawer"
       >
         <v-badge left color="accent">
@@ -96,15 +102,43 @@
         miniVariant: false,
         right: true,
         rightDrawer: false,
-        title: 'Pilochki'
+        title: 'Pilochki',
+        themes: [
+          {
+            primary: '#C2185B',
+            secondary: '#FCE4EC',
+            accent: '#26C6DA'
+          },
+          {
+            primary: '#152C41',
+            secondary: '#CCD6E0',
+            accent: '#26C6DA',
+            greyBackground: '#F1F3F5'
+          },
+          {
+            primary: '#152C41',
+            secondary: '#CCD6E0',
+            accent: '#A31621',
+            greyBackground: '#F1F3F5'
+          }
+        ]
       }
     },
     created () {
-      this.$vuetify.theme.primary = '#C2185B'
-      this.$vuetify.theme.secondary = '#FCE4EC'
-      this.$vuetify.theme.accent = '#26C6DA'
+      this.$vuetify.theme.primary = '#152C41'
+      this.$vuetify.theme.secondary = '#CCD6E0'
+      this.$vuetify.theme.accent = '#247BC8'
     },
     computed: {
+    },
+    methods: {
+      changeTheme () {
+        const random = Math.floor(Math.random() * this.themes.length)
+
+        this.$vuetify.theme.primary = this.themes[random].primary
+        this.$vuetify.theme.secondary = this.themes[random].secondary
+        this.$vuetify.theme.accent = this.themes[random].accent
+      }
     },
     components: {
       SideBar,
@@ -131,7 +165,8 @@
       position: absolute;
       width: 56px;
       height: 56px;
-      background-color: #C2185B;
+      /*background-color: #C2185B;*/
+      background-color: #152C41;
       animation: zoom-out 3s linear 0s infinite normal;
     }
   }

@@ -21,9 +21,9 @@
       </no-ssr>
 
       <v-flex xs7>
-        <v-card-title primary-title class="py-0">
+        <v-card-title primary-title class="py-0 card-title__height">
           <div>
-            <div class="title">{{ item.title }}</div>
+            <div class="subheading">{{ item.title }}</div>
           </div>
         </v-card-title>
       </v-flex>
@@ -111,6 +111,10 @@
     top: 0;
     letf: 0;
     z-index: 2;
+  }
+  .card-title__height {
+    height: 48px;
+    overflow: hidden;
   }
 
   @media screen and (max-width: 960px) {
