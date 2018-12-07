@@ -1,7 +1,7 @@
 <template>
-  <v-layout row justify-center>
-    <v-flex xs12 lg12 md12>
-      <v-toolbar class="mb-4">
+  <v-layout row justify-center fill-height>
+    <v-flex xs12 lg12 md12 class="grey--bg">
+      <v-toolbar class="mb-4 white">
         <h3 class="grey--text">{{ category.title }}</h3>
         <v-spacer></v-spacer>
         <v-toolbar-items>
@@ -53,7 +53,8 @@
           { title: 'Сменные файлы для Podo-Disk', id: '5' },
           { title: 'Наборы Баф BLACK', id: '6' }
         ],
-        products: []
+        products: [],
+        resizeTimeout: null
       }
     },
     computed: {
@@ -72,7 +73,6 @@
     },
     created () {
       this.handleHash(this.$route.query)
-      this.spliceProducts()
     },
     methods: {
       handleHash (query) {
@@ -107,6 +107,22 @@
       },
       setPaginationLength (products) {
         this.paginationLength = Math.ceil(products.length / this.productsPerPage)
+      },
+      onResize () {
+        clearTimeout(this.resizeTimeout)
+
+        if (document.body.clientWidth < 960) {
+          this.resizeTimeout = setTimeout(() => {
+            this.productsPerPage = 8
+            this.spliceProducts()
+          }, 300)
+        }
+        if (document.body.clientWidth > 960) {
+          this.resizeTimeout = setTimeout(() => {
+            this.productsPerPage = 9
+            this.spliceProducts()
+          }, 300)
+        }
       }
     },
     watch: {
@@ -124,7 +140,8 @@
       }
     },
     mounted () {
-      this.productsPerPage = 8
+      this.onResize()
+      window.addEventListener('resize', this.onResize)
     },
     components: {
       ProductsContent
@@ -142,6 +159,9 @@
   .pagination {
     width: 100%;
     justify-content: center;
+  }
+  .toolbar-bg {
+    background-color: #CCD6E0;
   }
 
   @media screen and (max-width: 960px) {
