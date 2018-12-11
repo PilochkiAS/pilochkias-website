@@ -245,6 +245,9 @@
     .v-btn--active i{
       color: #26C6DA !important;
     }
+    .v-carousel__controls {
+      padding-top: 2rem;
+    }
   }
   .v-carousel {
     box-shadow: none !important;
