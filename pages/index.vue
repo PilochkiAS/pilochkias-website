@@ -53,11 +53,10 @@
           >
 
             <v-layout justify-center fill-height>
-              <v-flex xs8>
+              <v-flex xs8 @click.native.stop="openDialog(item)" @click="openDialog(item)">
                 <ProductItem :isModuleList="isModuleList" :item="item"/>
               </v-flex>
             </v-layout>
-
           </v-carousel-item>
         </v-carousel>
       </v-flex>
@@ -85,10 +84,13 @@
     <section6 />
 
     <section5 />
+
+    <product-item-dialog v-model="dialog" :product="chosenProduct"/>
   </v-layout>
 </template>
 <script>
   import ProductItem from '~/components/ProductItem'
+  import ProductItemDialog from '~/components/ProductItemDialog'
   import section5 from '~/components/sections/section5'
   import section6 from '~/components/sections/section6'
 
@@ -113,7 +115,9 @@
           }
         ],
         isModuleList: true,
-        pwaPrompt: null
+        pwaPrompt: null,
+        dialog: false,
+        chosenProduct: {}
       }
     },
     async asyncData ({ store, route }) {
@@ -134,6 +138,10 @@
             // hide our user interface that shows our A2HS button
             this.pwaPrompt = null
           })
+      },
+      openDialog (product) {
+        this.dialog = true
+        this.chosenProduct = product
       }
     },
     mounted () {
@@ -146,6 +154,7 @@
     },
     components: {
       ProductItem,
+      ProductItemDialog,
       section5,
       section6
     }
