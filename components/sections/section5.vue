@@ -1,63 +1,97 @@
 <template>
-  <v-container grid-list-md class="pt-5">
+  <v-container grid-list-sm class="pt-5">
     <h4 class="display-1">Отзывы</h4>
 
-    <v-carousel light class="carousel-reviews-section-5 show-overflow" height="350">
-        <v-carousel-item
-                v-for="(review, index) in sortedReviews"
-                :key="index"
-        >
+    <v-carousel light class="carousel-reviews-section-5 hidden-sm-and-down" height="350">
+      <v-carousel-item
+              v-for="(review, index) in sortedReviews"
+              :key="index"
+      >
+        <v-layout justify-center fill-height>
+          <v-item-group>
+            <v-container grid-list-md class="pt-5">
+              <v-layout wrap>
+                <v-flex
+                        v-for="item in review"
+                        :key="item.message"
+                        xs12
+                        md4
+                        class=""
+                >
+                  <v-item>
+                    <v-card
+                        slot-scope="{ active, toggle }"
+                        class=""
+                        height="230"
+                    >
+                      <v-card-title class="px-3 py-2 d-flex">
+                        <h5 class="headline" v-text="item.name"></h5>
+                        <v-spacer></v-spacer>
+                        <p class="ma-0 grey--text" v-text="item.date" style="flex-basis: 0% !important;"></p>
+                      </v-card-title>
 
-          <v-layout justify-center fill-height>
-            <v-item-group>
-              <v-container grid-list-md class="pt-5">
-                <v-layout wrap>
-                  <v-flex
-                          v-for="item in review"
-                          :key="item.message"
-                          xs12
-                          md4
-                          class=""
-                  >
-                    <v-item>
-                      <v-card
-                              slot-scope="{ active, toggle }"
-                              :color="active ? 'primary' : ''"
-                              class=""
-                              height="230"
-                              @click="toggle"
-                      >
-                        <v-card-title class="px-3 py-2 d-flex">
-                          <h5 class="headline" v-text="item.name"></h5>
-                          <v-spacer></v-spacer>
-                          <p class="ma-0 grey--text" v-text="item.date" style="flex-basis: 0% !important;"></p>
-                        </v-card-title>
+                      <v-responsive>
+                        <v-layout column fill-height class="ma-0 px-3 py-0">
+                          <v-flex class="text-xs-left py-0">
+                            <v-rating
+                                    small
+                                    readonly
+                                    v-model="item.rating"
+                                    color="accent"
+                                    class="reviews-rating-section-5"
+                            ></v-rating>
+                          </v-flex>
+                          <v-flex xs10 class="text-xs-left">
+                            <p class="ma-0" v-text="item.message"></p>
+                          </v-flex>
+                        </v-layout>
+                      </v-responsive>
+                    </v-card>
+                  </v-item>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-item-group>
+        </v-layout>
+      </v-carousel-item>
+    </v-carousel>
 
-                        <v-responsive>
-                          <v-layout column fill-height class="ma-0 px-3 py-0">
-                            <v-flex class="text-xs-left py-0">
-                              <v-rating
-                                      small
-                                      readonly
-                                      v-model="item.rating"
-                                      color="accent"
-                                      class="reviews-rating-section-5"
-                              ></v-rating>
-                            </v-flex>
-                            <v-flex xs10 class="text-xs-left">
-                              <p class="ma-0" v-text="item.message"></p>
-                            </v-flex>
-                          </v-layout>
-                        </v-responsive>
-                      </v-card>
-                    </v-item>
-                  </v-flex>
-                </v-layout>
-              </v-container>
-            </v-item-group>
-          </v-layout>
-        </v-carousel-item>
-      </v-carousel>
+    <v-carousel light class="carousel-reviews-section-5 hidden-md-and-up pt-5" hide-delimiters height="350">
+      <v-carousel-item
+              v-for="(item, index) in reviews"
+              :key="index"
+      >
+        <v-layout justify-center fill-height>
+          <v-flex xs10>
+            <v-card
+                class=""
+                height="230"
+            >
+              <v-card-title class="px-3 py-2 d-flex">
+                <h5 class="headline" v-text="item.name"></h5>
+                <v-spacer></v-spacer>
+                <p class="ma-0 grey--text" v-text="item.date" style="flex-basis: 0% !important;"></p>
+              </v-card-title>
+
+              <v-layout column fill-height class="ma-0 px-3 py-0">
+                <v-flex class="text-xs-left py-0">
+                  <v-rating
+                      small
+                      readonly
+                      v-model="item.rating"
+                      color="accent"
+                      class="reviews-rating-section-5"
+                  ></v-rating>
+                </v-flex>
+                <v-flex xs10 class="text-xs-left">
+                  <p class="ma-0" v-text="item.message"></p>
+                </v-flex>
+              </v-layout>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-carousel-item>
+    </v-carousel>
   </v-container>
 </template>
 <script>
@@ -160,8 +194,6 @@
       }
     },
     methods: {
-      async someMethod () {
-      }
     },
     async mounted () {
     },
@@ -174,6 +206,9 @@
 
 <style lang="stylus" scoped>
   @media screen and (max-width: 960px) {
+    .display-1 {
+      margin-left: 2rem;
+    }
   }
 </style>
 <style lang="stylus">
@@ -193,10 +228,10 @@
       color: #26C6DA !important;
     }
     .v-carousel__next {
-      right: -2rem;
+      right: -1rem;
     }
     .v-carousel__prev {
-      left: -2rem;
+      left: -1rem;
     }
   }
 
