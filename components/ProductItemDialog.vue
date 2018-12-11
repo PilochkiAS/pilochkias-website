@@ -1,42 +1,42 @@
 <template>
-  <v-dialog :value="value" @input="handleDialogChange" :fullscreen="isSmallScreen" :max-width="isSmallScreen ? null : 500" transition="dialog-bottom-transition">
-    <v-card>
-      <v-toolbar dark color="primary">
-        <v-btn icon dark @click="$emit('input', false)">
-          <v-icon>close</v-icon>
-        </v-btn>
-        <v-toolbar-title>{{ product.title }}</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-toolbar-items>
-          <v-btn icon
-                 class="action-btn"
-                 @click="$store.commit('addToCart', product)"
-          >
-            <v-icon>add_shopping_cart</v-icon>
+  <v-dialog :value="value" @input="handleDialogChange" max-width="500" transition="dialog-bottom-transition">
+      <v-card>
+        <v-toolbar dark color="primary">
+          <v-btn icon dark @click="$emit('input', false)">
+            <v-icon>close</v-icon>
           </v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
+          <v-toolbar-title>{{ product.title }}</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
+            <v-btn icon
+                   class="action-btn"
+                   @click="$store.commit('addToCart', product)"
+            >
+              <v-icon>add_shopping_cart</v-icon>
+            </v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
 
-      <v-layout column fill-height class="dialog-content pb-5">
-        <div class="discount-label pa-2" v-if="product.discount > 0">
-          <v-img src="/sale.png" height="40" width="40"/>
-        </div>
-        <v-img
-            :src="getImageUrl(product.mainImage)"
-            height="200px"
-            class="main-image"
-        ></v-img>
-        <span class="price-label accent primary--text py-1 px-4 font-weight-bold">{{ product.discount ? product.discount : product.price }}грн</span>
-        <v-layout column class="px-4 pt-4">
-          <h6 class="title text-xs-center">{{ product.title }}</h6>
-          <p class="subheading mt-3">{{ product.description }}</p>
+        <v-layout column fill-height class="dialog-content pb-5">
+          <div class="discount-label pa-2" v-if="product.discount > 0">
+            <v-img src="/sale.png" height="40" width="40"/>
+          </div>
+          <v-img
+              :src="getImageUrl(product.mainImage)"
+              height="200px"
+              class="main-image"
+          ></v-img>
+          <span class="price-label accent primary--text py-1 px-4 font-weight-bold">{{ product.discount ? product.discount : product.price }}грн</span>
+          <v-layout column class="px-4 pt-4">
+            <h6 class="title text-xs-center">{{ product.title }}</h6>
+            <p class="subheading mt-3">{{ product.description }}</p>
+          </v-layout>
+
         </v-layout>
 
-      </v-layout>
 
-
-    </v-card>
-  </v-dialog>
+      </v-card>
+    </v-dialog>
 </template>
 
 <script>

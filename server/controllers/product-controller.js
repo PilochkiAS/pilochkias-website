@@ -10,6 +10,7 @@ module.exports = {
 
       res.send({ data })
     } catch (err) {
+      console.log('==> err'.green, err)
       res.status(500).send({ error: { message: err.message, info: err }})
     }
   },
