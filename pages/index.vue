@@ -48,7 +48,7 @@
 
         <v-carousel light class="carousel2" height="280">
           <v-carousel-item
-                  v-for="item in $store.getters.getRandomProducts"
+                  v-for="item in randomProducts"
                   :key="item.title"
           >
 
@@ -61,17 +61,17 @@
         </v-carousel>
       </v-flex>
 
-      <v-flex xs12 md6 v-if="$store.getters.getDiscountProducts.length > 0">
+      <v-flex xs12 md6 v-if="discountProducts.length > 0">
         <h2 class="pt-4 pb-4 text-xs-center">Акции и скидки</h2>
 
         <v-carousel light class="carousel2" height="280">
           <v-carousel-item
-                  v-for="item in $store.getters.getDiscountProducts"
+                  v-for="item in discountProducts"
                   :key="item.title"
           >
 
             <v-layout justify-center fill-height>
-              <v-flex xs8>
+              <v-flex xs8 @click.native.stop="openDialog(item)" @click="openDialog(item)">
                 <ProductItem :isModuleList="isModuleList" :item="item"/>
               </v-flex>
             </v-layout>
@@ -117,7 +117,9 @@
         isModuleList: true,
         pwaPrompt: null,
         dialog: false,
-        chosenProduct: {}
+        chosenProduct: {},
+        discountProducts: [],
+        randomProducts: []
       }
     },
     async asyncData ({ store, route }) {
@@ -142,6 +144,12 @@
       openDialog (product) {
         this.dialog = true
         this.chosenProduct = product
+      },
+      getRandomProducts () {
+        this.randomProducts = this.$store.getters.getRandomProducts
+      },
+      getDiscountProducts () {
+        this.discountProducts = this.$store.getters.getDiscountProducts
       }
     },
     mounted () {
@@ -151,6 +159,8 @@
         // Stash the event so it can be triggered later.
         this.pwaPrompt = e
       })
+      this.getRandomProducts()
+      this.getDiscountProducts()
     },
     components: {
       ProductItem,
