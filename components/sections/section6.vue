@@ -4,49 +4,49 @@
             align-start
             class="banner primary--text"
   >
-    <v-flex class="primary">
+    <v-flex class="doted--bg_primary">
 
     </v-flex>
-    <v-flex class="accent">
+    <v-flex class="doted--bg_accent">
 
     </v-flex>
 
-    <v-layout class="banner-content primary--text hidden-sm-and-down"
+    <v-layout class="banner-content accent--text hidden-sm-and-down"
               align-start>
       <v-layout justify-start align-start column fill-height class="banner-left py-5 px-3">
-        <h4 class="font-weight-light font-italic primary--text text-xs-center display-1">При заказе на <span class="font-weight-bold">700грн</span></h4>
+        <h4 class="font-weight-light font-italic accent--text text-xs-center display-1">При заказе на <span class="font-weight-bold">700грн</span></h4>
 
         <div class="item mt-4">
-          <v-icon color="primary">room</v-icon>
+          <v-icon color="accent">room</v-icon>
           <h5 class="mb-0 ml-2 font-weight-light headline">бесплатная доставка</h5>
         </div>
 
         <div class="item">
-          <v-icon color="primary">format_paint</v-icon>
+          <v-icon color="accent">format_paint</v-icon>
           <h5 class="mb-0 ml-2 font-weight-light headline">нанесение логотипа в подарок</h5>
         </div>
       </v-layout>
       <v-layout justify-center align-center fill-height class="banner-right">
-        <v-btn outline nuxt to="/products" color="primary" class="">
+        <v-btn outline nuxt to="/products" color="accent" class="">
           Перейти к покупкам
         </v-btn>
       </v-layout>
     </v-layout>
 
-    <v-layout column class="banner-content primary--text hidden-md-and-up">
+    <v-layout column class="banner-content accent--text hidden-md-and-up">
       <v-layout column justify-start align-center fill-height class="w-100 ma-0 py-0 px-3">
-        <h4 class="font-weight-light font-italic primary--text text-xs-center display-1 pt-3">При заказе на <span class="font-weight-bold">700грн</span></h4>
+        <h4 class="font-weight-light font-italic accent--text text-xs-center display-1 pt-3">При заказе на <span class="font-weight-bold">700грн</span></h4>
 
         <div class="item mt-4 ml-3 w-100">
-          <v-icon color="primary">room</v-icon>
+          <v-icon color="accent">room</v-icon>
           <p class="mb-0 ml-2 font-weight-light subheading">бесплатная доставка</p>
         </div>
         <div class="item ml-3 w-100">
-          <v-icon color="primary">format_paint</v-icon>
+          <v-icon color="accent">format_paint</v-icon>
           <p class="mb-0 ml-2 font-weight-light subheading">нанесение логотипа в подарок</p>
         </div>
 
-        <v-btn outline nuxt to="/products" color="primary" class="mt-5 mb-5">
+        <v-btn outline nuxt to="/products" color="accent" class="mt-5 mb-5">
           Перейти к покупкам
         </v-btn>
       </v-layout>
@@ -75,6 +75,11 @@
 </script>
 
 <style lang="stylus" scoped>
+  $bg-color = #152C41;
+  $dot-color = #26C6DA;
+  $dot-size = 2px;
+  $dot-space = 22px;
+
   .banner {
     height: 400px;
     width: 100%;
@@ -101,7 +106,8 @@
       right:0;
       margin-left: auto;
       margin-right: auto;
-      background-color: rgba(245, 245, 245, 0.47);
+      //background-color: rgba(245, 245, 245, 0.47);
+      background-color: rgba(0,0,0,0.54);
       box-shadow: 1px 2px 20px 1px rgba(21, 44, 65, 0.54);
 
       .item {
@@ -117,6 +123,26 @@
       }
     }
 
+  }
+
+
+  .doted--bg_accent {
+    background:
+        linear-gradient(90deg, $dot-color ($dot-space - $dot-size), transparent 1%) center,
+        linear-gradient($dot-color ($dot-space - $dot-size), transparent 1%) center,
+        $bg-color;
+    background-size: $dot-space $dot-space;
+    flex: 1 1 20px;
+    height: 100%;
+  }
+  .doted--bg_primary {
+    background:
+        linear-gradient(90deg, $bg-color ($dot-space - $dot-size), transparent 1%) center,
+        linear-gradient($bg-color ($dot-space - $dot-size), transparent 1%) center,
+        $dot-color;
+    background-size: $dot-space $dot-space;
+    flex: 1 1 20px;
+    height: 100%;
   }
   @media screen and (max-width: 960px) {
     .banner {
