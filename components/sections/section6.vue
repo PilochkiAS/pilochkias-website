@@ -129,7 +129,6 @@
 
   }
 
-
   .doted--bg_accent {
     background:
         linear-gradient(90deg, $dot-color ($dot-space-primary - $dot-size-primary), transparent 1%) center,
