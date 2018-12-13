@@ -1,7 +1,50 @@
 <template>
   <div class="footer white py-5">
     <v-container class="py-0">
-      <v-layout>
+      <v-layout class="hidden-sm-and-down">
+        <v-flex xs4 class="mx-3">
+          <h5 class="headline accent--text pb-3">О нас</h5>
+          <p v-html="about" class=""></p>
+        </v-flex>
+
+        <v-flex xs4 class="mx-3">
+          <h5 class="headline accent--text pb-3">Быстрое Меню</h5>
+
+          <v-layout column>
+            <v-flex v-for="link in links"
+                    :key="link.title"
+                    class="link"
+            >
+              <v-icon>arrow_right</v-icon>
+              <nuxt-link
+                  :to="link.to"
+                  class="primary--text no-underline my-2"
+              >
+                {{ link.title }}
+              </nuxt-link>
+            </v-flex>
+          </v-layout>
+        </v-flex>
+        <v-flex xs4 class="mx-3">
+          <v-layout column>
+            <v-flex xs6 class="">
+              <h5 class="headline accent--text pb-3 no-wrap">Контактная информация</h5>
+
+              <p class="subheading mb-0">Адресс</p>
+              <p>203 Fake St. Mountain View, San Francisco, California, USA</p>
+
+              <p class="subheading mb-0">Телефон</p>
+              <a href="tel:380970710071" class="accent--text no-underline">+380970710071</a> <br/>
+              <a href="tel:380963447307" class="accent--text no-underline">+380963447307</a>
+
+              <p class="subheading mb-0 mt-3">Email Адресс</p>
+              <a href="mailto:youremail@domain.com" class="accent--text no-underline">youremail@domain.com</a>
+            </v-flex>
+            <v-flex xs6></v-flex>
+          </v-layout>
+        </v-flex>
+      </v-layout>
+      <v-layout column class="hidden-md-and-up">
         <v-flex xs4 class="mx-3">
           <h5 class="headline accent--text pb-3">О нас</h5>
           <p v-html="about" class=""></p>
