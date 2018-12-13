@@ -4,8 +4,9 @@
       <v-carousel-item
               v-for="banner in banners"
               :key="banner.title"
+              :src="banner.imgSrc"
       >
-        <v-layout fill-height class="ma-0 px-5 banner">
+        <v-layout fill-height :class="'ma-0 px-5 banner ' + banner.class">
           <v-flex xs12 md6 class="banner-text px-5">
             <h1 class="primary--text pa-1">{{ banner.title }}</h1>
             <h2 class="white--text pa-1 font-weight-light">{{ banner.description }}</h2>
@@ -26,7 +27,6 @@
           <v-flex xs0 md6 class="">
           </v-flex>
         </v-layout>
-
       </v-carousel-item>
     </v-carousel>
 
@@ -101,17 +101,17 @@
           { title: 'ПИЛКИ И ФАЙЛЫ',
             description: 'Всех размеров для маникюра и педикюра',
             link: '/products#saw-files',
-            imgSrc: 'https://images.ua.prom.st/1406733799_viber_image_22.jpg'
+            class: 'slide1'
           },
           { title: 'ДИСК SMART',
             link: '/products#smart-disks',
-            description: `Диск Smart - это инновационный, запатентованный компанией SMART инструмент`,
-            imgSrc: 'https://images.ua.prom.st/1406732993_viber_image_1.jpg'
+            class: 'slide2',
+            description: `Диск Smart - это инновационный, запатентованный компанией SMART инструмент`
           },
           { title: 'ОБОРУДОВАНИЕ',
             link: '/products#equipment',
-            description: 'Аппараты, лампы и пылесосы для маникюра и педикюра',
-            imgSrc: 'https://pilochki.com/files/12pzjm0qsiozn8kbg9xw/slider_original.jpg'
+            class: 'slide3 ',
+            description: 'Аппараты, лампы и пылесосы для маникюра и педикюра'
           }
         ],
         isModuleList: true,
@@ -170,6 +170,7 @@
     }
   }
 </script>
+
 <style lang="stylus" scoped>
   .bg-darken {
     background-color: rgba(71, 73, 78, 0.25);
@@ -178,9 +179,23 @@
     height: 50vh;
   }
   .banner {
-    background-color: #80DEEA;
-    background-image: url("https://images.ua.prom.st/912438962_w800_h640_dsc_0133.jpg");
-    background-size: cover;
+    background-color: #152C41;
+
+    &.slide1 {
+      background-image: url("https://images.pexels.com/photos/567540/pexels-photo-567540.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
+      background-size: cover;
+      background-position-y: center;
+    }
+    &.slide2 {
+      background-image: url("https://images.pexels.com/photos/164005/pexels-photo-164005.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
+      background-size: cover;
+      background-position-y: center;
+    }
+    &.slide3 {
+      background-image: url("https://images.pexels.com/photos/1568607/pexels-photo-1568607.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
+      background-size: cover;
+      background-position-y: center;
+    }
   }
   .banner-text {
     display: flex;
