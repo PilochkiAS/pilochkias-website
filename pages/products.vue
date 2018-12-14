@@ -76,6 +76,8 @@
     },
     methods: {
       handleHash (query) {
+        this.page = 1
+
         switch (query.category) {
           case '1':
             this.category = this.categories[1]
