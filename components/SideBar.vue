@@ -60,6 +60,18 @@
           <v-list-tile-title>Контакты</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
+
+      <v-list-tile router to="/cart"
+                   active-class="secondary primary--text"
+                   exact
+      >
+        <v-list-tile-action>
+          <v-icon>shopping_cart</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>Корзина</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
     </v-list>
 
     <v-spacer></v-spacer>

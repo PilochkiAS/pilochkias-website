@@ -33,6 +33,30 @@ const mutations = {
     products.push(product)
     state.products = products
   },
+  changeProductNumber (state, { number, product }) {
+    let products = state.products
+    let count = products.filter(item => item._id === product._id).length
+
+    if (parseInt(number) > count) {
+      for (let i = 0; i < parseInt(number) - count; i++) {
+        products.push(product)
+      }
+    } else if (parseInt(number) < count) {
+      let removeCount = 0
+      products = products.filter(item => {
+        if (removeCount === count - parseInt(number)) {
+          return true
+        }
+        if (item._id === product._id) {
+          removeCount += 1
+          return false
+        }
+        return true
+      })
+    }
+
+    state.products = products
+  },
   removeFromCart (state, product) {
     let products = state.products
     products = products.filter(item => item._id !== product._id)

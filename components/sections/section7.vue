@@ -1,6 +1,6 @@
 <template>
   <v-container class="py-5">
-    <v-layout fill-heignt class="py-5 hidden-sm-and-down">
+    <v-layout fill-height class="py-5 hidden-sm-and-down">
       <v-flex xs7 class="mr-4 white py-3 px-4">
         <v-form v-model="valid" color="white">
           <v-text-field
@@ -58,7 +58,7 @@
         </v-layout>
       </v-flex>
     </v-layout>
-    <v-layout column fill-heignt class="py-5 hidden-md-and-up">
+    <v-layout column fill-height class="py-5 hidden-md-and-up">
       <v-flex xs7 class="white py-3 px-4">
         <v-form v-model="valid" color="white">
           <v-text-field

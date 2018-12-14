@@ -84,30 +84,14 @@
         <v-btn
                 slot="activator"
                 color="accent"
+                nuxt
+                to="/cart"
                 dark
-                @click="makeOrder"
         >
-          Перейти к заказу
+          Перейти к корзину
         </v-btn>
       </v-layout>
     </div>
-
-    <v-snackbar
-            v-model="snackbar"
-            :color="snackbarColor"
-            :timeout="2000"
-            top
-            right
-    >
-      {{ snackbarMessage }}
-      <v-btn
-              dark
-              flat
-              @click="snackbar = false"
-      >
-        Close
-      </v-btn>
-    </v-snackbar>
   </v-layout>
 </template>
 
@@ -147,43 +131,6 @@
         } else if (process.env.NODE_ENV === 'production') {
           return id ? 'https://pilochki-cms.herokuapp.com/api/image/' + id : ''
         }
-      },
-
-      callSnackbar (message, color) {
-        this.snackbarMessage = message
-        this.snackbarColor = color
-        this.snackbar = true
-      },
-
-      makeOrder () {
-        const products = this.$store.getters.getSortedProducts.map(item => {
-          return {
-            product: item._id,
-            totalPrice: item.totalPrice,
-            number: item.number
-          }
-        })
-
-        const order = {
-          products,
-          customer: {
-            fullName: 'Ivan Ivanov',
-            phone: '+380733333333',
-            address: 'Test address'
-          },
-          isDone: false
-        }
-
-        const confirmOrder = confirm('Подтвердите заказ')
-
-        if (confirmOrder) {
-          this.createOrder(order).then(res => {
-            this.callSnackbar('Заказ успешно оформлен.', 'success')
-          })
-        }
-      },
-      async createOrder (orders) {
-        await this.$axios.post('/api/orders', orders)
       }
     }
   }

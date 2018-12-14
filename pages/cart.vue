@@ -1,0 +1,241 @@
+<template>
+  <v-layout column class="grey--bg" fill-height>
+    <v-parallax class=""
+                src="https://images.pexels.com/photos/567540/pexels-photo-567540.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+      <v-layout class="parallax-content" fill-height justify-center align-center>
+        <h1 class="display-2">Корзина</h1>
+      </v-layout>
+    </v-parallax>
+
+    <v-container class="pt-5">
+      <v-layout column fill-height class="pt-5" v-if="$store.getters.getSortedProducts.length > 0">
+        <v-card raised class="white products-header mb-3">
+          <v-layout fill-height>
+            <v-flex xs1 align-self-center class="product--center">
+            </v-flex>
+            <v-flex xs2 align-self-center class="">
+            </v-flex>
+            <v-flex xs5 align-self-center class="">
+              <p class="primary--text subheading ma-0">Товар</p>
+            </v-flex>
+            <v-flex xs1 align-self-center class="">
+              <p class="primary--text subheading ma-0">Цена</p>
+            </v-flex>
+            <v-flex xs2 align-self-center class="product--center">
+              <p class="primary--text subheading ma-0">Количество</p>
+            </v-flex>
+            <v-flex xs2 align-self-center class="">
+              <p class="primary--text subheading ma-0">Общая сумма</p>
+            </v-flex>
+          </v-layout>
+        </v-card>
+
+        <v-card class="white product mb-3" v-for="product in $store.getters.getSortedProducts" :key="product.id">
+          <v-layout fill-height>
+            <v-flex xs1 align-self-center class="product--center">
+              <v-btn icon @click="$store.commit('removeFromCart', product)">
+                <v-icon>close</v-icon>
+              </v-btn>
+            </v-flex>
+            <v-flex xs2 align-self-center class="">
+              <v-img
+                  :src="getImageUrl(product.mainImage)"
+                  :height="100"
+              ></v-img>
+            </v-flex>
+            <v-flex xs5 align-self-center class="px-3">
+              <p class="primary--text subheading ma-0">{{ product.title }}</p>
+            </v-flex>
+            <v-flex xs1 align-self-center class="">
+              <p class="accent--text subheading ma-0">{{ product.discount ? product.discount : product.price }} грн</p>
+            </v-flex>
+            <v-flex xs2 align-self-center class="product--center">
+              <v-btn flat small icon><v-icon>remove</v-icon></v-btn>
+              <v-text-field
+                  hide-details
+                  :value="product.number"
+                  solo
+                  @change="e => onProductNumberChange(e, product)"
+              ></v-text-field>
+              <v-btn flat small icon @click="$store.commit('addToCart', product)"><v-icon>add</v-icon></v-btn>
+            </v-flex>
+            <v-flex xs2 align-self-center class="">
+              <p class="accent--text subheading ma-0">{{ product.totalPrice }} грн</p>
+            </v-flex>
+          </v-layout>
+        </v-card>
+      </v-layout>
+
+      <v-layout column fill-height class="pt-5" v-else>
+        <v-card class="white py-4 mb-3">
+          <v-layout column fill-height justify-center align-center>
+            <p class="primary--text subheading ma-0">Корзина пуста</p>
+            <v-img src="/cart_empty.png" height="120" width="120" class="mt-2 mb-3"></v-img>
+            <v-btn nuxt to="/products" color="accent">Перейти к покупкам</v-btn>
+          </v-layout>
+        </v-card>
+      </v-layout>
+    </v-container>
+
+    <v-container class="py-5">
+      <v-card>
+        <v-layout row justify-end align-center fill-height class="py-4 px-5" v-if="$store.getters.getSortedProducts.length > 0">
+          <p class="primary--text subheading ma-0 mr-4"><b class="font-weight-regular accent--text">Товаров в корзине:</b> {{ totalProductsNumber }} шт.</p>
+          <p class="primary--text subheading ma-0 mr-4"><b class="font-weight-regular accent--text">Общая стоимость:</b> {{ totalPrice }} грн</p>
+
+          <v-btn
+              slot="activator"
+              color="accent"
+              dark
+              @click="makeOrder"
+          >
+            Перейти к заказу
+          </v-btn>
+        </v-layout>
+      </v-card>
+    </v-container>
+
+    <section8 />
+
+    <v-snackbar
+        v-model="snackbar"
+        :color="snackbarColor"
+        :timeout="2000"
+        top
+        right
+    >
+      {{ snackbarMessage }}
+      <v-btn
+          dark
+          flat
+          @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+  </v-layout>
+</template>
+<script>
+  import section8 from '~/components/sections/section8.vue'
+
+  export default {
+    data: () => ({
+      snackbarMessage: '',
+      snackbarColor: '',
+      snackbar: false
+    }),
+    computed: {
+      totalProductsNumber () {
+        return this.$store.state.cart.products.length
+      },
+      totalPrice () {
+        let price = 0
+        this.$store.getters.getSortedProducts.forEach(product => {
+          price += product.totalPrice
+        })
+        return price
+      }
+    },
+    methods: {
+      getImageUrl (id) {
+        if (process.env.NODE_ENV === 'development') {
+          return id ? 'http://localhost/api/image/' + id : ''
+        } else if (process.env.NODE_ENV === 'production' && process.env.herokuBaseURL === 'true') {
+          console.log('==> process.env.herokuBaseURL:', process.env.herokuBaseURL)
+          return id ? 'https://pilochki-cms.herokuapp.com/api/image/' + id : ''
+        } else if (process.env.NODE_ENV === 'production') {
+          return id ? 'https://pilochki-cms.herokuapp.com/api/image/' + id : ''
+        }
+      },
+      onProductNumberChange (e, product) {
+        if (e === 0) {
+          this.$store.commit('removeFromCart', product)
+        }
+        this.$store.commit('changeProductNumber', { number: e, product })
+      },
+      makeOrder () {
+        const products = this.$store.getters.getSortedProducts.map(item => {
+          return {
+            product: item._id,
+            totalPrice: item.totalPrice,
+            number: item.number
+          }
+        })
+
+        const order = {
+          products,
+          customer: {
+            fullName: 'Ivan Ivanov',
+            phone: '+380733333333',
+            address: 'Test address'
+          },
+          isDone: false
+        }
+
+        const confirmOrder = confirm('Подтвердите заказ')
+
+        if (confirmOrder) {
+          this.createOrder(order).then(res => {
+            this.callSnackbar('Заказ успешно оформлен.', 'success')
+          })
+        }
+      },
+      async createOrder (orders) {
+        await this.$axios.post('/api/orders', orders)
+      },
+      callSnackbar (message, color) {
+        this.snackbarMessage = message
+        this.snackbarColor = color
+        this.snackbar = true
+      }
+    },
+    mounted () {
+    },
+    components: {
+      section8
+    }
+  }
+</script>
+
+<style lang="stylus" scoped>
+  .v-parallax {
+    max-height: 40vh;
+
+    .parallax-content {
+      background-color: rgba(127, 130, 139, 0.29);
+    }
+  }
+  .product {
+    height: 120px;
+
+    .product--center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  .products-header {
+    height: 60px;
+
+    .product--center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  .container {
+    flex: 1 1 auto;
+  }
+
+  @media screen and (max-width: 960px) {
+
+  }
+</style>
+
+<style lang="stylus">
+  .v-parallax__content {
+    padding: 0;
+  }
+  @media screen and (max-width: 960px) {
+  }
+</style>

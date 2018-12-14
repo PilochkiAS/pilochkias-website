@@ -107,6 +107,14 @@
         {
           to: '/delivery',
           title: 'Доставка и оплата'
+        },
+        {
+          to: '/contacts',
+          title: 'Контакты'
+        },
+        {
+          to: '/cart',
+          title: 'Корзина'
         }
       ]
     }),
