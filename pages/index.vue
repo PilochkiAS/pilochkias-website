@@ -85,6 +85,8 @@
 
     <section5 />
 
+    <section8 />
+
     <product-item-dialog v-model="dialog" :product="chosenProduct"/>
   </v-layout>
 </template>
@@ -93,6 +95,7 @@
   import ProductItemDialog from '~/components/ProductItemDialog'
   import section5 from '~/components/sections/section5'
   import section6 from '~/components/sections/section6'
+  import section8 from '~/components/sections/section8'
 
   export default {
     data () {
@@ -166,7 +169,8 @@
       ProductItem,
       ProductItemDialog,
       section5,
-      section6
+      section6,
+      section8
     }
   }
 </script>

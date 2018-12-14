@@ -46,7 +46,19 @@
       <CartSideBar v-model="rightDrawer"/>
     </v-navigation-drawer>
     <v-footer :fixed="fixed" app class="text-xs-center">
-      <span>&copy; {{ new Date().getFullYear() }}</span>
+      <v-layout
+          justify-center
+          row
+          wrap
+      >
+        <v-flex
+            py-3
+            text-xs-center
+            xs12
+        >
+          &copy; {{ new Date().getFullYear() }} — <strong>PilochkiAS</strong>
+        </v-flex>
+      </v-layout>
     </v-footer>
 
     <v-bottom-sheet v-model="sheet" full-width>
