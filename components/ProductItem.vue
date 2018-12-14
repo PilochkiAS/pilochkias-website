@@ -43,7 +43,7 @@
       </v-btn>
       <v-btn icon
              class="action-btn"
-             @click="$store.commit('addToCart', item)"
+             @click="event => addToCart(event, item)"
       >
         <v-icon>add_shopping_cart</v-icon>
       </v-btn>
@@ -70,6 +70,10 @@
         } else if (process.env.NODE_ENV === 'production') {
           return id ? 'https://pilochki-cms.herokuapp.com/api/image/' + id : ''
         }
+      },
+      addToCart (event, item) {
+        event.stopPropagation()
+        this.$store.commit('addToCart', item)
       }
     },
     props: ['isModuleList', 'item']
