@@ -67,7 +67,8 @@
           { title: 'Наборы с Podo-Disk', id: '3' },
           { title: 'Шрифты для гравировки', id: '4' },
           { title: 'Сменные файлы для Podo-Disk', id: '5' },
-          { title: 'Наборы Баф BLACK', id: '6' }
+          { title: 'Наборы Баф BLACK', id: '6' },
+          { title: 'Одноразовая продукция', id: '7' }
         ],
         products: [],
         resizeTimeout: null,
@@ -116,6 +117,9 @@
             break
           case '6':
             this.category = this.categories[6]
+            break
+          case '7':
+            this.category = this.categories[7]
             break
           default:
             this.category = this.categories[0]

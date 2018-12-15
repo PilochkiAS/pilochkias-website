@@ -124,7 +124,8 @@
           { title: 'Наборы с Podo-Disk', to: '/products?category=3' },
           { title: 'Шрифты для гравировки', to: '/products?category=4' },
           { title: 'Сменные файлы для Podo-Disk', to: '/products?category=5' },
-          { title: 'Наборы Баф BLACK', to: '/products?category=6' }
+          { title: 'Наборы Баф BLACK', to: '/products?category=6' },
+          { title: 'Одноразовая продукция', to: '/products?category=7' }
         ],
         phones: [
           { title: '+380970710071', link: `<a href="tel:380970710071">+380970710071</a>` },
