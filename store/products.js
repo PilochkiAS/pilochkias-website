@@ -49,6 +49,16 @@ const actions = {
     return api.fetchProducts().then(data => {
       commit('setProducts', data.data)
     })
+  },
+  sortProductsAscending ({ commit }) {
+    return api.fetchProducts('1').then(data => {
+      commit('setProducts', data.data)
+    })
+  },
+  sortProductsDescending ({ commit }) {
+    return api.fetchProducts('-1').then(data => {
+      commit('setProducts', data.data)
+    })
   }
 }
 

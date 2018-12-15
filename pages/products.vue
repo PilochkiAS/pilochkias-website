@@ -1,12 +1,11 @@
 <template>
   <v-layout row justify-center fill-height>
     <v-flex xs12 lg12 md12 class="grey--bg">
-      <v-toolbar class="mb-4 white">
+      <v-toolbar class="white">
         <h3 class="grey--text">{{ category.title }}</h3>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-          <v-btn icon class="mx-sm-0"><v-icon>filter_list</v-icon></v-btn>
-          <v-btn icon class="mx-sm-0"><v-icon>swap_vert</v-icon></v-btn>
+          <v-btn icon class="mx-sm-0" @click="openPanel"><v-icon>swap_vert</v-icon></v-btn>
           <v-btn icon :href="PDFUrl" class="mx-sm-0"><v-icon>arrow_downward</v-icon></v-btn>
           <v-btn icon class="mx-sm-0">
             <v-icon v-if="!isModuleList" @click="isModuleList = !isModuleList">view_module</v-icon>
@@ -14,6 +13,23 @@
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
+      <v-expansion-panel v-model="panel" popout class="mt-0">
+        <v-expansion-panel-content class="mt-0">
+          <v-card flat>
+            <v-layout justify-center align-center class="grey lighten-3 py-3 hidden-sm-and-down">
+              <p class="subheading ma-0">Сортировать по:</p>
+              <p class="accent--text mb-0 ml-3 sort-link" @click="$store.dispatch('sortProductsAscending')">возрастанию цены</p>
+              <p class="accent--text mb-0 ml-3 sort-link" @click="$store.dispatch('sortProductsDescending')">убыванию цены</p>
+            </v-layout>
+            <v-layout column justify-center align-center class="grey lighten-3 py-3 hidden-md-and-up">
+              <p class="subheading">Сортировать по:</p>
+              <p class="accent--text ml-3 sort-link" @click="$store.dispatch('sortProductsAscending')">возрастанию цены</p>
+              <p class="accent--text ml-3 sort-link" @click="$store.dispatch('sortProductsDescending')">убыванию цены</p>
+            </v-layout>
+          </v-card>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
       <v-container>
         <ProductsContent
                 :isModuleList="isModuleList"
@@ -54,7 +70,8 @@
           { title: 'Наборы Баф BLACK', id: '6' }
         ],
         products: [],
-        resizeTimeout: null
+        resizeTimeout: null,
+        panel: null
       }
     },
     computed: {
@@ -66,6 +83,9 @@
         } else if (process.env.NODE_ENV === 'production') {
           return 'https://pilochki-cms.herokuapp.com/api/price-list'
         }
+      },
+      productsStore () {
+        return this.$store.getters.getProductsByCategory(this.category.id)
       }
     },
     async asyncData ({ store, route }) {
@@ -125,6 +145,14 @@
             this.spliceProducts()
           }, 300)
         }
+      },
+      openPanel () {
+        if (this.panel === 0) {
+          this.panel = null
+        } else {
+          this.panel = 0
+        }
+        console.log('==> openPanel', this.panel)
       }
     },
     watch: {
@@ -138,6 +166,9 @@
         deep: true
       },
       page () {
+        this.spliceProducts()
+      },
+      productsStore () {
         this.spliceProducts()
       }
     },
@@ -164,6 +195,9 @@
   }
   .toolbar-bg {
     background-color: #CCD6E0;
+  }
+  .sort-link {
+    cursor: pointer;
   }
 
   @media screen and (max-width: 960px) {

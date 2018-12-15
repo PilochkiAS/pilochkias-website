@@ -7,8 +7,16 @@ if (process.env.herokuBaseURL) {
 }
 
 module.exports = {
-  async getAllProducts () {
-    const { data } = await axios.get('/api/products')
+  async getAllProducts (query) {
+    let url = '/api/products'
+    if (query.length > 0) {
+      url += '?'
+      query.forEach(item => {
+        url += item
+      })
+    }
+
+    const { data } = await axios.get(url)
     return data.data
   },
   async getProductById (id) {

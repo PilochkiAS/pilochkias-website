@@ -6,7 +6,12 @@ module.exports = {
    * */
   async getProducts (req, res, next) {
     try {
-      const data = await api.getAllProducts()
+      const { price } = req.query
+
+      let query = []
+      if (price) query.push('price=' + price)
+
+      const data = await api.getAllProducts(query)
 
       res.send({ data })
     } catch (err) {

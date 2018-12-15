@@ -7,8 +7,11 @@ if (process.env.herokuBaseURL) {
   axios.defaults.baseURL = 'https://pilochki.herokuapp.com'
 }
 
-const fetchProducts = async () => {
-  const { data } = await axios('api/products')
+const fetchProducts = async (price) => {
+  let url = 'api/products'
+  url += price ? '?price=' + price : ''
+
+  const { data } = await axios(url)
 
   return data
 }
