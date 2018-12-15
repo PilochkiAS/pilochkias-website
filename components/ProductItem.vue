@@ -3,9 +3,7 @@
     <v-layout :column="isModuleList" class="custom-cards">
       <no-ssr>
         <v-flex xs5 class="py-0 product-images">
-          <div class="discount-label pa-2" v-if="item.discount > 0">
-            <v-img src="/sale.png" height="40" width="40"/>
-          </div>
+          <span class="white--text primary discount-label pa-1" v-if="item.discount > 0">{{ discountPercent }}</span>
 
           <v-img
                   :src="getImageUrl(item.mainImage)"
@@ -60,6 +58,12 @@
     created () {
 
     },
+    computed: {
+      discountPercent () {
+        let percent = parseInt(100 - (this.item.discount * 100 / this.item.price))
+        return percent > 0 ? 'SALE ' + percent + '%' : 'SALE'
+      }
+    },
     methods: {
       getImageUrl (id) {
         if (process.env.NODE_ENV === 'development') {
@@ -113,7 +117,6 @@
     height: 2rem;
     position: absolute;
     top: 0;
-    letf: 0;
     z-index: 2;
   }
   .card-title__height {
