@@ -9,7 +9,7 @@
 
     <v-container class="pt-5">
       <v-layout column fill-height class="pt-5" v-if="$store.getters.getSortedProducts.length > 0">
-        <v-card raised class="white products-header mb-3">
+        <v-card raised class="white products-header mb-3 hidden-sm-and-down">
           <v-layout fill-height>
             <v-flex xs1 align-self-center class="product--center">
             </v-flex>
@@ -30,7 +30,7 @@
           </v-layout>
         </v-card>
 
-        <v-card class="white product mb-3" v-for="product in $store.getters.getSortedProducts" :key="product.id">
+        <v-card class="white product mb-3 hidden-sm-and-down" v-for="product in $store.getters.getSortedProducts" :key="product.id">
           <v-layout fill-height>
             <v-flex xs1 align-self-center class="product--center">
               <v-btn icon @click="$store.commit('removeFromCart', product)">
@@ -50,7 +50,7 @@
               <p class="accent--text subheading ma-0">{{ product.discount ? product.discount : product.price }} грн</p>
             </v-flex>
             <v-flex xs2 align-self-center class="product--center">
-              <v-btn flat small icon><v-icon>remove</v-icon></v-btn>
+              <v-btn flat small icon @click="$store.commit('changeProductNumber', { number: product.number - 1, product })"><v-icon>remove</v-icon></v-btn>
               <v-text-field
                   hide-details
                   :value="product.number"
@@ -62,6 +62,43 @@
             <v-flex xs2 align-self-center class="">
               <p class="accent--text subheading ma-0">{{ product.totalPrice }} грн</p>
             </v-flex>
+          </v-layout>
+        </v-card>
+
+        <v-card class="white product mb-3 hidden-md-and-up" v-for="product in $store.getters.getSortedProducts" :key="product.id">
+
+          <v-layout column>
+              <v-card-title primary-title class="pa-0">
+                <v-layout>
+                  <v-flex xs4>
+                    <v-img :src="getImageUrl(product.mainImage)" height="150px"></v-img>
+                  </v-flex>
+                  <v-flex xs8>
+                    <div class="subheading mt-2 mb-3 mx-2">{{ product.title }}</div>
+                    <v-flex class="product--center mt-auto">
+                      <v-btn flat small icon @click="$store.commit('changeProductNumber', { number: product.number - 1, product })"><v-icon>remove</v-icon></v-btn>
+                      <v-text-field
+                          hide-details
+                          :value="product.number"
+                          solo
+                          small
+                          @change="e => onProductNumberChange(e, product)"
+                      ></v-text-field>
+                      <v-btn flat small icon @click="$store.commit('addToCart', product)"><v-icon>add</v-icon></v-btn>
+                    </v-flex>
+                  </v-flex>
+                </v-layout>
+              </v-card-title>
+              <v-card-actions>
+                <v-layout align-center justify-end class="pr-3">
+                  <v-btn icon flat color="accent" @click="$store.commit('removeFromCart', product)">
+                    <v-icon>delete</v-icon>
+                  </v-btn>
+                  <v-spacer></v-spacer>
+                  <p class="subheading my-0 mx-1">Цена: <span class="accent--text">{{ product.discount ? product.discount : product.price }} грн</span></p>
+                  <p class="subheading my-0 mx-1">Всего: <span class="accent--text">{{ product.totalPrice }} грн</span></p>
+                </v-layout>
+              </v-card-actions>
           </v-layout>
         </v-card>
       </v-layout>
@@ -79,7 +116,7 @@
 
     <v-container class="py-5">
       <v-card>
-        <v-layout row justify-end align-center fill-height class="py-4 px-5" v-if="$store.getters.getSortedProducts.length > 0">
+        <v-layout row justify-end align-center fill-height class="py-4 px-5 hidden-sm-and-down" v-if="$store.getters.getSortedProducts.length > 0">
           <p class="primary--text subheading ma-0 mr-4"><b class="font-weight-regular accent--text">Товаров в корзине:</b> {{ totalProductsNumber }} шт.</p>
           <p class="primary--text subheading ma-0 mr-4"><b class="font-weight-regular accent--text">Общая стоимость:</b> {{ totalPrice }} грн</p>
 
@@ -88,6 +125,20 @@
               color="accent"
               dark
               @click="makeOrder"
+          >
+            Перейти к заказу
+          </v-btn>
+        </v-layout>
+        <v-layout column justify-end align-center fill-height class="py-4 px-5 hidden-md-and-up" v-if="$store.getters.getSortedProducts.length > 0">
+          <p class="primary--text subheading ma-0 mr-4"><b class="font-weight-regular accent--text">Товаров в корзине:</b> {{ totalProductsNumber }} шт.</p>
+          <p class="primary--text subheading ma-0 mr-4"><b class="font-weight-regular accent--text">Общая стоимость:</b> {{ totalPrice }} грн</p>
+
+          <v-btn
+              slot="activator"
+              color="accent"
+              dark
+              @click="makeOrder"
+              class="mt-3"
           >
             Перейти к заказу
           </v-btn>
@@ -228,7 +279,9 @@
   }
 
   @media screen and (max-width: 960px) {
-
+    .product {
+      height: auto;
+    }
   }
 </style>
 
