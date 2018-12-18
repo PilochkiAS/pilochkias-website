@@ -124,7 +124,8 @@
               slot="activator"
               color="accent"
               dark
-              @click="makeOrder"
+              nuxt
+              to="/order"
           >
             Перейти к заказу
           </v-btn>
@@ -137,7 +138,8 @@
               slot="activator"
               color="accent"
               dark
-              @click="makeOrder"
+              nuxt
+              to="/order"
               class="mt-3"
           >
             Перейти к заказу
