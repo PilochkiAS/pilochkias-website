@@ -206,33 +206,6 @@
         }
         this.$store.commit('changeProductNumber', { number: e, product })
       },
-      makeOrder () {
-        const products = this.$store.getters.getSortedProducts.map(item => {
-          return {
-            product: item._id,
-            totalPrice: item.totalPrice,
-            number: item.number
-          }
-        })
-
-        const order = {
-          products,
-          customer: {
-            fullName: 'Ivan Ivanov',
-            phone: '+380733333333',
-            address: 'Test address'
-          },
-          isDone: false
-        }
-
-        const confirmOrder = confirm('Подтвердите заказ')
-
-        if (confirmOrder) {
-          this.createOrder(order).then(res => {
-            this.callSnackbar('Заказ успешно оформлен.', 'success')
-          })
-        }
-      },
       async createOrder (orders) {
         await this.$axios.post('/api/orders', orders)
       },

@@ -13,8 +13,10 @@ module.exports = {
         customer: {
           fullName: data.customer.fullName,
           phone: data.customer.phone,
+          email: data.customer.email,
           address: data.customer.address
         },
+        engraving: data.engraving,
         isDone: false
       }
 

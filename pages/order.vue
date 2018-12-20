@@ -9,7 +9,7 @@
 
     <v-container class="pt-5">
       <v-layout column fill-height class="pt-5">
-        <v-card raised class="white mb-3 py-3 px-4 hidden-sm-and-down">
+        <v-card raised class="white mb-3 py-3 px-4">
           <v-layout fill-height>
             <v-flex xs12>
               <v-form v-model="valid">
@@ -18,6 +18,12 @@
                     :rules="nameRules"
                     :counter="true"
                     label="Полное имя"
+                    required
+                ></v-text-field>
+                <v-text-field
+                    v-model="address"
+                    :rules="addressRules"
+                    label="Адрес"
                     required
                 ></v-text-field>
                 <v-text-field
@@ -34,6 +40,24 @@
                     label="Номер телефона"
                     required
                 ></v-text-field>
+                <v-expansion-panel v-model="isPanelOpen" popout class="mt-0">
+                  <v-checkbox v-model="panel" label="Заказать гравировку" value="true"></v-checkbox>
+                  <v-expansion-panel-content class="mt-0 expand-content">
+                    <v-card flat>
+                      <v-layout column class="grey lighten-3 py-3 px-4">
+                        <v-flex xs12>
+                          <v-textarea
+                              v-model="engraving"
+                              label="Сообщение"
+                              :rules="engravingRules"
+                              :counter="true"
+                              required
+                          ></v-textarea>
+                        </v-flex>
+                      </v-layout>
+                    </v-card>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
               </v-form>
             </v-flex>
           </v-layout>
@@ -42,8 +66,8 @@
     </v-container>
 
     <v-container class="py-5">
-      <v-card>
-        <v-layout row justify-end align-center fill-height class="py-4 px-5 hidden-sm-and-down" v-if="$store.getters.getSortedProducts.length > 0">
+      <v-card v-if="$store.getters.getSortedProducts.length > 0">
+        <v-layout row justify-end align-center fill-height class="py-4 px-5 hidden-sm-and-down">
           <p class="primary--text subheading ma-0 mr-4"><b class="font-weight-regular accent--text">Товаров в корзине:</b> {{ totalProductsNumber }} шт.</p>
           <p class="primary--text subheading ma-0 mr-4"><b class="font-weight-regular accent--text">Общая стоимость:</b> {{ totalPrice }} грн</p>
 
@@ -56,7 +80,7 @@
             Подтвердить заказ
           </v-btn>
         </v-layout>
-        <v-layout column justify-end align-center fill-height class="py-4 px-5 hidden-md-and-up" v-if="$store.getters.getSortedProducts.length > 0">
+        <v-layout column justify-end align-center fill-height class="py-4 px-5 hidden-md-and-up">
           <p class="primary--text subheading ma-0 mr-4"><b class="font-weight-regular accent--text">Товаров в корзине:</b> {{ totalProductsNumber }} шт.</p>
           <p class="primary--text subheading ma-0 mr-4"><b class="font-weight-regular accent--text">Общая стоимость:</b> {{ totalPrice }} грн</p>
 
@@ -69,6 +93,13 @@
           >
             Подтвердить заказ
           </v-btn>
+        </v-layout>
+      </v-card>
+
+      <v-card v-else>
+        <v-layout column fill-height justify-center align-center class="py-4 px-5">
+          <p class="primary--text subheading ma-0">Вы не можете сделать заказ, так как корзина пуста. </p>
+          <v-btn nuxt to="/products" color="accent">Перейти к покупкам</v-btn>
         </v-layout>
       </v-card>
     </v-container>
@@ -101,11 +132,21 @@
       snackbarMessage: '',
       snackbarColor: '',
       snackbar: false,
+      panel: false,
+      isPanelOpen: null,
       valid: false,
       name: '',
       nameRules: [
         v => !!v || 'Имя обязательно',
         v => v.length >= 6 || 'Имя должно быть больше 6 символов'
+      ],
+      address: '',
+      addressRules: [
+        v => !!v || 'Адрес доставки обязателен'
+      ],
+      engraving: '',
+      engravingRules: [
+        v => !!v || 'Пожалуйста, расскажите, какую гравировку вы хотите?'
       ],
       email: '',
       emailRules: [
@@ -119,6 +160,16 @@
         v => v[0] === '0' || 'Номер телефона должен быть валидным'
       ]
     }),
+    watch: {
+      panel (to, from) {
+        console.log('==> panel:', to)
+        if (!to) {
+          this.isPanelOpen = null
+        } else if (to === 'true') {
+          this.isPanelOpen = 0
+        }
+      }
+    },
     computed: {
       totalProductsNumber () {
         return this.$store.state.cart.products.length
@@ -132,22 +183,6 @@
       }
     },
     methods: {
-      getImageUrl (id) {
-        if (process.env.NODE_ENV === 'development') {
-          return id ? 'http://localhost/api/image/' + id : ''
-        } else if (process.env.NODE_ENV === 'production' && process.env.herokuBaseURL === 'true') {
-          console.log('==> process.env.herokuBaseURL:', process.env.herokuBaseURL)
-          return id ? 'https://pilochki-cms.herokuapp.com/api/image/' + id : ''
-        } else if (process.env.NODE_ENV === 'production') {
-          return id ? 'https://pilochki-cms.herokuapp.com/api/image/' + id : ''
-        }
-      },
-      onProductNumberChange (e, product) {
-        if (e === 0) {
-          this.$store.commit('removeFromCart', product)
-        }
-        this.$store.commit('changeProductNumber', { number: e, product })
-      },
       makeOrder () {
         const products = this.$store.getters.getSortedProducts.map(item => {
           return {
@@ -163,8 +198,9 @@
             fullName: this.name,
             phone: this.phoneNumber,
             email: this.email,
-            address: 'Test address'
+            address: this.address
           },
+          engraving: this.engraving,
           isDone: false
         }
 
@@ -176,8 +212,8 @@
           })
         }
       },
-      async createOrder (orders) {
-        await this.$axios.post('/api/orders', orders)
+      async createOrder (order) {
+        await this.$axios.post('/api/orders', order)
       },
       callSnackbar (message, color) {
         this.snackbarMessage = message
@@ -201,32 +237,16 @@
       background-color: rgba(127, 130, 139, 0.29);
     }
   }
-  .product {
-    height: 120px;
-
-    .product--center {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-  .products-header {
-    height: 60px;
-
-    .product--center {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
   .container {
     flex: 1 1 auto;
   }
 
+  .expand-content {
+    border-top: 0 !important;
+  }
+
+
   @media screen and (max-width: 960px) {
-    .product {
-      height: auto;
-    }
   }
 </style>
 
