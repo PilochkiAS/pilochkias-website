@@ -37,7 +37,7 @@
 
       </v-list-group>
 
-      <v-list-tile router to="/delivery"
+      <v-list-tile router to="/about"
                    active-class="secondary primary--text"
                    exact
       >
@@ -45,7 +45,7 @@
           <v-icon>location_on</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>Доставка и оплата</v-list-tile-title>
+          <v-list-tile-title>О нас</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
 

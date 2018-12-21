@@ -218,6 +218,7 @@
     }
   }
   .carousel-reviews-section-5 {
+    box-shadow: unset !important;
     .v-carousel__controls {
       background: none;
     }
