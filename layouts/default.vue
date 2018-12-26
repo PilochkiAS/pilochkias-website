@@ -27,7 +27,7 @@
               @click.stop="rightDrawer = !rightDrawer"
       >
         <v-badge left color="accent">
-          <span slot="badge" v-if="$store.state.cart.products.length > 0">{{ $store.state.cart.products.length }}</span>
+          <span slot="badge" v-if="$store.getters.getSortedProducts.length > 0">{{ $store.getters.getSortedProducts.length }}</span>
           <v-icon>shopping_cart</v-icon>
         </v-badge>
       </v-btn>

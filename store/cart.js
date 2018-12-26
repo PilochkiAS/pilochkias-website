@@ -7,20 +7,8 @@ const getters = {
     let products = [...new Set(state.products)]
 
     products.forEach(product => {
-      let count = 0
-      let totalPrice = 0
-
-      state.products.forEach(item => {
-        if (item._id === product._id) {
-          count += 1
-
-          if (item.discount) totalPrice += item.discount
-          else totalPrice += item.price
-        }
-      })
-
-      product.number = count
-      product.totalPrice = totalPrice
+      product.number = calculateProductNumber(state.products, product._id)
+      return calculateWholesale(product)
     })
 
     return products
@@ -57,6 +45,20 @@ const mutations = {
 
     state.products = products
   },
+  removeOneFromCart (state, product) {
+    let products = state.products
+    let deleteCount = 0
+
+    products = products.filter(item => {
+      if (item._id === product._id && deleteCount === 0) {
+        deleteCount += 1
+        return false
+      }
+      return true
+    })
+
+    state.products = products
+  },
   removeFromCart (state, product) {
     let products = state.products
     products = products.filter(item => item._id !== product._id)
@@ -75,4 +77,55 @@ export default {
   getters,
   mutations,
   actions
+}
+
+function calculateProductNumber (products, id) {
+  let count = 0
+  products.forEach(item => {
+    if (item._id === id) count += 1
+  })
+  return count
+}
+
+function calculateWholesale (product) {
+  const count = parseInt(product.number)
+  const category = parseInt(product.category)
+
+  if (category === 1) {
+    if (count > 0 && count <= 6) {
+      product.totalPrice = calculateTotalPrice(count, product.wholesale.limit1)
+    } else if (count > 6 && count <= 20) {
+      product.totalPrice = calculateTotalPrice(count, product.wholesale.limit2)
+    } else if (count > 20 && count <= 50) {
+      product.totalPrice = calculateTotalPrice(count, product.wholesale.limit3)
+    } else if (count > 50) {
+      product.totalPrice = calculateTotalPrice(count, product.wholesale.limit4)
+    }
+  } else if (category === 2) {
+    if (count > 0 && count <= 50) {
+      product.totalPrice = calculateTotalPrice(count, product.wholesale.limit1)
+    } else if (count > 50 && count <= 250) {
+      product.totalPrice = calculateTotalPrice(count, product.wholesale.limit2)
+    } else if (count > 250 && count <= 400) {
+      product.totalPrice = calculateTotalPrice(count, product.wholesale.limit3)
+    } else if (count > 400) {
+      product.totalPrice = calculateTotalPrice(count, product.wholesale.limit4)
+    }
+  } else {
+    if (product.discount) {
+      product.totalPrice = calculateTotalPrice(count, product.discount)
+    } else {
+      product.totalPrice = calculateTotalPrice(count, product.price)
+    }
+  }
+
+  return product
+}
+
+function calculateTotalPrice (count, price) {
+  let totalPrice = 0
+  for (let i = 0; i < count; i++) {
+    totalPrice += price
+  }
+  return totalPrice
 }

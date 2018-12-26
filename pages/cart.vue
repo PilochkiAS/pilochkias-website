@@ -50,7 +50,7 @@
               <p class="accent--text subheading ma-0">{{ product.discount ? product.discount : product.price }} грн</p>
             </v-flex>
             <v-flex xs2 align-self-center class="product--center">
-              <v-btn flat small icon @click="$store.commit('changeProductNumber', { number: product.number - 1, product })"><v-icon>remove</v-icon></v-btn>
+              <v-btn flat small icon @click="$store.commit('removeOneFromCart', product)"><v-icon>remove</v-icon></v-btn>
               <v-text-field
                   hide-details
                   :value="product.number"
@@ -117,7 +117,7 @@
     <v-container class="py-5">
       <v-card>
         <v-layout row justify-end align-center fill-height class="py-4 px-5 hidden-sm-and-down" v-if="$store.getters.getSortedProducts.length > 0">
-          <p class="primary--text subheading ma-0 mr-4"><b class="font-weight-regular accent--text">Товаров в корзине:</b> {{ totalProductsNumber }} шт.</p>
+          <p class="primary--text subheading ma-0 mr-4"><b class="font-weight-regular accent--text">Товаров в корзине:</b> {{ $store.getters.getSortedProducts.length }} шт.</p>
           <p class="primary--text subheading ma-0 mr-4"><b class="font-weight-regular accent--text">Общая стоимость:</b> {{ totalPrice }} грн</p>
 
           <v-btn
@@ -131,7 +131,7 @@
           </v-btn>
         </v-layout>
         <v-layout column justify-end align-center fill-height class="py-4 px-5 hidden-md-and-up" v-if="$store.getters.getSortedProducts.length > 0">
-          <p class="primary--text subheading ma-0 mr-4"><b class="font-weight-regular accent--text">Товаров в корзине:</b> {{ totalProductsNumber }} шт.</p>
+          <p class="primary--text subheading ma-0 mr-4"><b class="font-weight-regular accent--text">Товаров в корзине:</b> {{ $store.getters.getSortedProducts.length }} шт.</p>
           <p class="primary--text subheading ma-0 mr-4"><b class="font-weight-regular accent--text">Общая стоимость:</b> {{ totalPrice }} грн</p>
 
           <v-btn
