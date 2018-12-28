@@ -56,6 +56,7 @@
                   :value="product.number"
                   solo
                   @change="e => onProductNumberChange(e, product)"
+                  class="min-width--prod-number"
               ></v-text-field>
               <v-btn flat small icon @click="$store.commit('addToCart', product)"><v-icon>add</v-icon></v-btn>
             </v-flex>
